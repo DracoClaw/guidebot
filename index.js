@@ -1,7 +1,7 @@
 
 const { Client } = require('discord.js');
 const { registerCommands, registerEvents } = require('./utils/registry');
-const config = require('./config.json');
+const config = require('../config.json');
 const client = new Client();
 
 (async () => {
