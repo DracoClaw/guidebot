@@ -1,15 +1,14 @@
-import { Message } from "discord.js"
+import { CommandInteraction, Message } from "discord.js"
+import { SlashCommandBuilder } from "@discordjs/builders"
 
 export interface ICommand {
-    readonly commandName: string;
+    commandId: string;
 
-    readonly commandAliases: string[];
+    data: SlashCommandBuilder;
 
-    help(commandPrefix: string): string;
-
-    run(parsedCommand: Message): Promise<void>;
+    execute(interaction: CommandInteraction): void
 }
-
+/* 
 export namespace ICommand {
     type Constructor<T> = {
         new(...args: any[]): T;
@@ -24,4 +23,4 @@ export namespace ICommand {
         implementations.push(ctor);
         return ctor;
     }
-}
+} */
