@@ -32,6 +32,7 @@ client.on("ready", () => {
         if (guild) {
             console.log(`Setting Staff Role permissions to Guild: ${guild?.name}`);
             commandHandler.commandObjects.forEach((command) => {
+                console.log(`Setting Perms to command: ${command.data.name} - id: ${command.commandId}`);
                 guild.commands.fetch(command.commandId).then((appCommand) => {
                     const permissions: ApplicationCommandPermissionData[] = [
                         {

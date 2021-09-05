@@ -4,10 +4,9 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import config = require("../../config.json");
 import { ICommand } from "../commands/ICommand";
-import { ApplicationCommandPermissionData, Client, GuildApplicationCommandPermissionData, Intents } from "discord.js";
 
 export class CommandHandler {
-    guildId: string = "695630972082978986";
+    guildId: string = config.guildId;
 
     clientId: string;
 
@@ -50,33 +49,3 @@ export class CommandHandler {
         }
     }
 }
-
-/* import { Message } from "discord.js";
-import { ICommand } from "../commands/ICommand";
-
-export default class CommandHandler {
-    private commands: ICommand[];
-
-    private readonly prefix: string;
-
-    constructor(prefix: string) {
-        const commandClasses = ICommand.GetImplementations();
-
-        this.commands = commandClasses.map(commandClass => new commandClass());
-        this.prefix = prefix;
-    }
-
-    async handleMessage(message: Message): Promise<void> {
-        if (message.author.bot || !this.isCommand(message)) {
-            return;
-        }
-        
-        message.reply(`Message from <@${message.author.id}> received.`);
-
-        // match to a command and run it.
-    }
-
-    isCommand(message: Message): boolean {
-        return message.content.startsWith(this.prefix);
-    }
-} */
