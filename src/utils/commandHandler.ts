@@ -1,4 +1,4 @@
-import { PingCommand } from "../commands";
+import Commands from "../commands";
 
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
@@ -20,9 +20,11 @@ export class CommandHandler {
     }
 
     async registerCommands(): Promise<void> {
-        const pingCommand = new PingCommand();
-        this.commands.push(pingCommand.data.toJSON());
-        this.commandObjects.push(pingCommand);
+        Commands.forEach((command) => {
+            let commandInstance = new command();
+            this.commands.push(commandInstance.data.toJSON());
+            this.commandObjects.push(commandInstance);
+        });
 
         let token = config.token
         let rest = new REST({ version: "9" }).setToken(token);
@@ -38,7 +40,7 @@ export class CommandHandler {
 
                 this.commands.forEach((command) => {
                     const cmdId:string = registeredCommands.find((registeredCommand) => registeredCommand.name === command.name).id;
-                    console.log(`cmdId: ${cmdId}`);
+                    console.log(`cmdName: ${command.name} - cmdId: ${cmdId}`);
                     const commandObject = this.commandObjects.find((cmdObj) => cmdObj.data.name === command.name);
                     if (commandObject) commandObject.commandId = cmdId;
                 });

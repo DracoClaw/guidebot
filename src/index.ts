@@ -11,9 +11,8 @@ declare module "discord.js" {
     }
 }
 
-const clientId = "882194073287528468";
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-const commandHandler = new CommandHandler(clientId);
+const commandHandler = new CommandHandler(config.clientId);
 
 client.commands = new Collection();
 
@@ -29,14 +28,14 @@ client.on("ready", () => {
     console.log("GuideBot Started!");
     
     client.application?.fetch().then((application) => {
-        const guild = client.guilds.cache.get("695630972082978986");
+        const guild = client.guilds.cache.get(config.guildId);
         if (guild) {
-            console.log(`Guild: ${guild?.name}`);
+            console.log(`Setting Staff Role permissions to Guild: ${guild?.name}`);
             commandHandler.commandObjects.forEach((command) => {
                 guild.commands.fetch(command.commandId).then((appCommand) => {
                     const permissions: ApplicationCommandPermissionData[] = [
                         {
-                            id: "723281594286080100",
+                            id: config.staffRole,
                             permission: true,
                             type: "ROLE"
                         }

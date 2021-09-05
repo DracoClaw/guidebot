@@ -3,6 +3,9 @@
     "language": "javascript",
     "manager": "npm",
     "token": "ODgyMTk0MDczMjg3NTI4NDY4.YS31QQ.NjjuWnm_PZj9bYJ8hNrjH4d7KH4",
+    "clientId": "882194073287528468",
+    "staffRole": "723281594286080100",
+    "guildId": "695630972082978986",
     "prefix": ".gb",
     "foo": "bar"
 }
