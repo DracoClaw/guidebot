@@ -11,6 +11,6 @@
     "counting": {
         "currCount": 739,
         "bestCount": 739,
-        "textTimeout": 5
+        "textTimeout": 10
     }
 }
