@@ -6,6 +6,11 @@
     "clientId": "882194073287528468",
     "staffRole": "723281594286080100",
     "guildId": "695630972082978986",
+    "countingChannel": "886033608983347221",
     "prefix": ".gb",
-    "foo": "bar"
+    "counting": {
+        "currCount": 0,
+        "bestCount": 0,
+        "textTimeout": 5
+    }
 }
