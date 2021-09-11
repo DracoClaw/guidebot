@@ -1,4 +1,4 @@
-import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence} from "discord.js";
+import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence, MessageEmbed} from "discord.js";
 import { REST } from "@discordjs/rest";
 import { GuildDefaultMessageNotifications, Routes } from 'discord-api-types/v9';
 import config = require("../config.json");
@@ -125,6 +125,14 @@ async function count(message: Message): Promise<boolean> {
                 let currHighscore = config.counting.bestCount;
                 if (currHighscore < oldCount) {
                     config.counting.bestCount = oldCount;
+                    let embedMsg = message.channel.messages.fetch("886304948260851772").then((msg: Message) => {
+                        const embedMsg = new MessageEmbed()
+                        .setTitle("HIGH SCORE")
+                        .setDescription(`[${oldCount.toString()}](https://discord.com/channels/${config.guildId}/${config.countingChannel}/${config.counting.lastMsgId})`)
+                        .setFooter(config.counting.lastUserTag)
+                        .setTimestamp();
+                        msg.edit({ embeds: [embedMsg] })
+                    });
                     message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
                 }
 
@@ -134,6 +142,8 @@ async function count(message: Message): Promise<boolean> {
             }
 
             config.counting.currCount = newCount;
+            config.counting.lastUserTag = message.author.tag;
+            config.counting.lastMsgId = message.id;
             resolve(true);
         } catch(error) {
             reject(error);
