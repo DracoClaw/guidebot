@@ -124,7 +124,16 @@ async function count(message: Message): Promise<boolean> {
 
                 let currHighscore = config.counting.bestCount;
                 if (currHighscore < oldCount) {
+				
+					const newEmbed = new MessageEmbed()
+						.setTitle("HIGH SCORE")
+						.setDescription("${oldCount}")
+						.setFooter("{message.author.tag}")
+						.setTimestamp();
+						
                     config.counting.bestCount = oldCount;
+					var Msg = config.highscoreEmbed;
+					Msg.edit(newEmbed);
                     message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
                 }
 
@@ -134,6 +143,7 @@ async function count(message: Message): Promise<boolean> {
             }
 
             config.counting.currCount = newCount;
+			config.counting.currUser = {message.author.id};
             resolve(true);
         } catch(error) {
             reject(error);
