@@ -1,7 +1,16 @@
 {
-  "name": "GuideBot",
-  "language": "javascript",
-  "manager": "npm",
-  "token": "NzgxNTc2NjI0NTM3NjAwMDIx.X7_p9A.ZmgDCENJmWFrylWBW3TcWi0AOl0",
-  "prefix": ".g"
+    "name": "GuideBot",
+    "language": "javascript",
+    "manager": "npm",
+    "token": "ODgyMTk0MDczMjg3NTI4NDY4.YS31QQ.NjjuWnm_PZj9bYJ8hNrjH4d7KH4",
+    "clientId": "882194073287528468",
+    "staffRole": "723281594286080100",
+    "guildId": "695630972082978986",
+    "countingChannel": "886033608983347221",
+    "prefix": ".gb",
+    "counting": {
+        "currCount": 0,
+        "bestCount": 0,
+        "textTimeout": 5
+    }
 }
