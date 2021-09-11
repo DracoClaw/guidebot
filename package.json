@@ -2,10 +2,10 @@
   "name": "GuideBot",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.js",
+  "main": "build/src/index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js",
+    "dev": "nodemon ./build/src/index.js",
+    "start": "node ./build/src/index.js",
     "build": "tsc",
     "prestart": "npm run build"
   },
