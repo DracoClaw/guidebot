@@ -120,7 +120,7 @@ async function count(message: Message): Promise<boolean> {
             console.log(`Current Count: ${oldCount}`);
 
             if (oldCount + 1 !== newCount) {
-                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount}**. Let's start over!`);
+                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount + 1}**. Let's start over!`);
 
                 let currHighscore = config.counting.bestCount;
                 if (currHighscore < oldCount) {
