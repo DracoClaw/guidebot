@@ -1,4 +1,4 @@
-import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message} from "discord.js";
+import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence} from "discord.js";
 import { REST } from "@discordjs/rest";
 import { GuildDefaultMessageNotifications, Routes } from 'discord-api-types/v9';
 import config = require("../config.json");
@@ -27,6 +27,16 @@ commandHandler.registerCommands().then(() => {
 
 client.on("ready", () => {
     console.log("GuideBot Started!");
+
+    client.user?.setPresence({
+        status: "online",
+        activities: [
+            {
+                name: "Animal Crossing: New Horizons",
+                type: "PLAYING"
+            }
+        ]
+    });
     
     client.application?.fetch().then((application) => {
         const guild = client.guilds.cache.get(config.guildId);
