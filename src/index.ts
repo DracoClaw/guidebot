@@ -143,6 +143,7 @@ async function count(message: Message): Promise<boolean> {
             }
 
             config.counting.currCount = newCount;
+			config.counting.currUser = {message.author.id};
             resolve(true);
         } catch(error) {
             reject(error);
