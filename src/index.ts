@@ -84,7 +84,7 @@ client.on("interactionCreate", async (interaction: Interaction) => {
                 if (result) {
                     message.react("✅");
                 } else {
-                    message.react("🚫");
+                    message.react("❌");
                 }
             })
             .catch((error) => {
@@ -120,12 +120,12 @@ async function count(message: Message): Promise<boolean> {
             console.log(`Current Count: ${oldCount}`);
 
             if (oldCount + 1 !== newCount) {
-                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. Let's start over!`);
+                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount}**. Let's start over!`);
 
                 let currHighscore = config.counting.bestCount;
                 if (currHighscore < oldCount) {
                     config.counting.bestCount = oldCount;
-                    message.channel.send(`NEW HIGHSCORE!! We reached ${oldCount}! Let's try to surpass that!`);
+                    message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
                 }
 
                 config.counting.currCount = 0;
