@@ -2,6 +2,9 @@
   "name": "RR-bot",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "16.x"
+  },
   "main": "build/src/index.js",
   "scripts": {
     "dev": "nodemon ./build/src/index.js",
