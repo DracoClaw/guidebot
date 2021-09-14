@@ -1,11 +1,11 @@
 {
-  "name": "RR-bot",
+  "name": "GuideBot",
   "version": "1.0.0",
-  "description": "",
   "engines": {
     "node": "16.x"
   },
-  "main": "build/src/index.js",
+  "description": "",
+  "main": "./build/src/index.js",
   "scripts": {
     "dev": "nodemon ./build/src/index.js",
     "start": "node ./build/src/index.js",

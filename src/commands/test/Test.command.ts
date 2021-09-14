@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { ICommand } from "../ICommand";
 
 export class TestCommand implements ICommand{
@@ -15,6 +15,12 @@ export class TestCommand implements ICommand{
     }
 
     async execute(interaction: CommandInteraction) {
-        await interaction.reply(`Under Construction.`);
+        const embedMsg = new MessageEmbed()
+        .setTitle("HIGH SCORE")
+        .setDescription("0")
+        .setFooter("<@341680387979870219>")
+        .setTimestamp();
+
+        await interaction.channel?.send({ embeds: [embedMsg] });
     }
 }

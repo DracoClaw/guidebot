@@ -1,4 +1,4 @@
-import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message} from "discord.js";
+import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence, MessageEmbed} from "discord.js";
 import { REST } from "@discordjs/rest";
 import { GuildDefaultMessageNotifications, Routes } from 'discord-api-types/v9';
 import config = require("../config.json");
@@ -27,6 +27,16 @@ commandHandler.registerCommands().then(() => {
 
 client.on("ready", () => {
     console.log("GuideBot Started!");
+
+    client.user?.setPresence({
+        status: "online",
+        activities: [
+            {
+                name: "Animal Crossing: New Horizons",
+                type: "PLAYING"
+            }
+        ]
+    });
     
     client.application?.fetch().then((application) => {
         const guild = client.guilds.cache.get(config.guildId);
@@ -74,7 +84,7 @@ client.on("interactionCreate", async (interaction: Interaction) => {
                 if (result) {
                     message.react("✅");
                 } else {
-                    message.react("🚫");
+                    message.react("❌");
                 }
             })
             .catch((error) => {
@@ -110,12 +120,20 @@ async function count(message: Message): Promise<boolean> {
             console.log(`Current Count: ${oldCount}`);
 
             if (oldCount + 1 !== newCount) {
-                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. Let's start over!`);
+                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount + 1}**. Let's start over!`);
 
                 let currHighscore = config.counting.bestCount;
                 if (currHighscore < oldCount) {
                     config.counting.bestCount = oldCount;
-                    message.channel.send(`NEW HIGHSCORE!! We reached ${oldCount}! Let's try to surpass that!`);
+                    let embedMsg = message.channel.messages.fetch("886304948260851772").then((msg: Message) => {
+                        const embedMsg = new MessageEmbed()
+                        .setTitle("HIGH SCORE")
+                        .setDescription(`[${oldCount.toString()}](https://discord.com/channels/${config.guildId}/${config.countingChannel}/${config.counting.lastMsgId})`)
+                        .setFooter(config.counting.lastUserTag)
+                        .setTimestamp();
+                        msg.edit({ embeds: [embedMsg] })
+                    });
+                    message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
                 }
 
                 config.counting.currCount = 0;
@@ -124,6 +142,8 @@ async function count(message: Message): Promise<boolean> {
             }
 
             config.counting.currCount = newCount;
+            config.counting.lastUserTag = message.author.tag;
+            config.counting.lastMsgId = message.id;
             resolve(true);
         } catch(error) {
             reject(error);
