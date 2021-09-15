@@ -1,10 +1,9 @@
-import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence, MessageEmbed} from "discord.js";
-import { REST } from "@discordjs/rest";
-import { GuildDefaultMessageNotifications, Routes } from 'discord-api-types/v9';
+import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence, MessageEmbed, Guild} from "discord.js";
+import { connect, getOrCreateGuildById } from "./services/database.service";
+import { count } from "./services/counting.service"
 import config = require("../config.json");
 import { CommandHandler } from "./utils/commandHandler"
 import { ICommand } from "./commands/ICommand";
-import { resolveModuleName } from "typescript";
 
 declare module "discord.js" {
     export interface Client {
@@ -26,7 +25,7 @@ commandHandler.registerCommands().then(() => {
 });
 
 client.on("ready", () => {
-    console.log("GuideBot Started!");
+    console.log("GuideBot Starting!");
 
     client.user?.setPresence({
         status: "online",
@@ -39,24 +38,35 @@ client.on("ready", () => {
     });
     
     client.application?.fetch().then((application) => {
-        const guild = client.guilds.cache.get(config.guildId);
-        if (guild) {
-            console.log(`Setting Staff Role permissions to Guild: ${guild?.name}`);
-            commandHandler.commandObjects.forEach((command) => {
-                console.log(`Setting Perms to command: ${command.data.name} - id: ${command.commandId}`);
-                guild.commands.fetch(command.commandId).then((appCommand) => {
-                    const permissions: ApplicationCommandPermissionData[] = [
-                        {
-                            id: config.staffRole,
-                            permission: true,
-                            type: "ROLE"
-                        }
-                    ];
+        connect()
+        .then(() => console.log("Connected to MongoDB!"))
+        .then(() => {
+            client.guilds.cache.forEach((guild, guildId, guildMap) => {
+                if (guild) {
+                    getOrCreateGuildById(guild.id).then((guildConfig) => {
+                        console.log(`Setting Staff Role permissions to Guild: ${guild.name}`);
+                        commandHandler.commandObjects.forEach((command) => {
+                            guild.commands.fetch(command.commandId).then((appCommand) => {
+                                console.log(`Setting Perms to command: ${command.data.name}`);
 
-                    appCommand.permissions.add({ permissions });
-                });
+                                const permissions: ApplicationCommandPermissionData[] = [
+                                    {
+                                        id: guildConfig.staffRole,
+                                        permission: true,
+                                        type: "ROLE"
+                                    }
+                                ];
+            
+                                appCommand.permissions.add({ permissions });
+                            })
+                            .catch((error) => console.error(`Unable to set permissions to command "${command.data.name}" for guild "${guild.name}": ${error}`));
+                        });
+                    });
+                }
             });
-        }
+            console.log("GuideBot Started!");
+        })
+        .catch((error) => console.error(`Unable to start GuideBot: ${error}`));
     });
 });
 
@@ -76,10 +86,12 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 }).on("messageCreate", async (message: Message) => {
     if (message.author.bot) return;
 
-    console.log(`Message Received!`);
+    const guild = await getOrCreateGuildById(message.guildId!);
 
-    if (message.channelId === config.countingChannel) {
-        await count(message)
+    if (message.channelId === guild.counting.channel) {
+        console.log(`Message Received in the counting channel!`);
+
+        count(message, guild)
             .then((result) => {
                 if (result) {
                     message.react("✅");
@@ -88,12 +100,12 @@ client.on("interactionCreate", async (interaction: Interaction) => {
                 }
             })
             .catch((error) => {
-                message.reply(`Sorry <@${message.author.id}>, only numbers are allowed in this channel.`)
+                message.reply(`Sorry <@${message.author.id}>, only numbers above zero are allowed in this channel.`)
                     .then((newMessage: Message) => {
                         setTimeout(() => {
                             newMessage.delete();
                             message.delete();
-                        }, config.counting.textTimeout * 1000);
+                        }, guild.counting.textTimeout * 1000);
                     });
                 console.error(`Not counting: ${error}`);
             });
@@ -101,52 +113,3 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 });
 
 client.login(config.token);
-
-async function count(message: Message): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-        try {
-            const newCount = Number(message.content);
-            if (isNaN(newCount)) {
-                reject("Not a Number!");
-                return;
-            }
-
-            if (!parseInt(message.content, 10) || newCount.toString().indexOf('.') > -1 || newCount.toString().indexOf(',') > -1) {
-                reject("Not a Integer!");
-                return;
-            }
-
-            const oldCount = config.counting.currCount;
-            console.log(`Current Count: ${oldCount}`);
-
-            if (oldCount + 1 !== newCount) {
-                message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount + 1}**. Let's start over!`);
-
-                let currHighscore = config.counting.bestCount;
-                if (currHighscore < oldCount) {
-                    config.counting.bestCount = oldCount;
-                    let embedMsg = message.channel.messages.fetch("886304948260851772").then((msg: Message) => {
-                        const embedMsg = new MessageEmbed()
-                        .setTitle("HIGH SCORE")
-                        .setDescription(`[${oldCount.toString()}](https://discord.com/channels/${config.guildId}/${config.countingChannel}/${config.counting.lastMsgId})`)
-                        .setFooter(config.counting.lastUserTag)
-                        .setTimestamp();
-                        msg.edit({ embeds: [embedMsg] })
-                    });
-                    message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
-                }
-
-                config.counting.currCount = 0;
-                resolve(false);
-                return;
-            }
-
-            config.counting.currCount = newCount;
-            config.counting.lastUserTag = message.author.tag;
-            config.counting.lastMsgId = message.id;
-            resolve(true);
-        } catch(error) {
-            reject(error);
-        }
-    });
-};
