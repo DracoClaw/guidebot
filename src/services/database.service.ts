@@ -4,16 +4,13 @@ import { GuideGuild, Counting } from "../models";
 export const collections: { guilds?: mongoDB.Collection } = {}
 
 export async function connect() {
-    // const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGODB_URI!);
-    const client: mongoDB.MongoClient = new mongoDB.MongoClient("mongodb+srv://guideStaff:FWHMlUu0jZH0r4tP@guide0.dlcet.mongodb.net/GuideBot?retryWrites=true&w=majority");
+    const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGODB_URI!);
 
     await client.connect();
 
-    // const db = client.db(process.env.LIVE_DB!);
-    const db = client.db("Guide0");
+    const db = client.db(process.env.LIVE_DB!);
 
-    // const guildsCollection = db.collection(process.env.GUILD_COLLECTION!)
-    const guildsCollection = db.collection("guilds")
+    const guildsCollection = db.collection(process.env.GUILD_COLLECTION!)
 
     collections.guilds = guildsCollection;
 }
