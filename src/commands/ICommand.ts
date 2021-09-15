@@ -1,10 +1,10 @@
 import { CommandInteraction, Message } from "discord.js"
-import { SlashCommandBuilder } from "@discordjs/builders"
+import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders"
 
 export interface ICommand {
     commandId: string;
 
-    data: SlashCommandBuilder;
+    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
 
     execute(interaction: CommandInteraction): void
 }
