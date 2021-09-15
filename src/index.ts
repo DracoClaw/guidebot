@@ -27,8 +27,6 @@ commandHandler.registerCommands().then(() => {
 client.on("ready", () => {
     console.log("GuideBot Starting!");
 
-    console.log(`Getting Env Var: ${process.env.LIVE_DB}`);
-
     client.user?.setPresence({
         status: "online",
         activities: [
