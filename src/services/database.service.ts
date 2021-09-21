@@ -25,7 +25,7 @@ export async function getOrCreateGuildById(id: string): Promise<GuideGuild> {
         const newGuild = new GuideGuild(
             id,
             "",
-            new Counting("", 0, 0, "", "", 10, "")
+            new Counting("", 0, 0, "", "", 10, "",3,1)
         )
 
         const result = (await collections.guilds?.insertOne(newGuild))

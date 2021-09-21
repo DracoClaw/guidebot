@@ -5,5 +5,7 @@ export default class Counting {
         public lastUserTag: string,
         public lastMsgId: string,
         public textTimeout: number,
-        public embedMsg: string) {}
+        public embedMsg: string,
+		public limit: number,
+		public currLimit: number) {}
 }
