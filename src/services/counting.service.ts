@@ -16,7 +16,7 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                 return;
             }
 
-            if (guild.counting.lastUserTag == message.author.tag && guild.counting.currLimit > guild.counting.limit) {
+            if (guild.counting.lastUserTag == message.author.tag && guild.counting.currLimit >= guild.counting.limit) {
                 reject(CountingError.Limit);
                 return;
             }
