@@ -4,6 +4,7 @@ import { count } from "./services/counting.service"
 import config = require("../config.json");
 import { CommandHandler } from "./utils/commandHandler"
 import { ICommand } from "./commands/ICommand";
+import { CountingError } from "./models";
 
 declare module "discord.js" {
     export interface Client {
@@ -92,23 +93,50 @@ client.on("interactionCreate", async (interaction: Interaction) => {
         console.log(`Message Received in the counting channel!`);
 
         count(message, guild)
-            .then((result) => {
-                if (result) {
-                    message.react("✅");
-                } else {
-                    message.react("❌");
-                }
-            })
-            .catch((error) => {
-                message.reply(`Sorry <@${message.author.id}>, only numbers above zero are allowed in this channel.`)
+        .then((result) => {
+            if (result) {
+                message.react("✅");
+            } else {
+                message.react("❌");
+            }
+        })
+        .catch((error:CountingError|string) => {
+            let msg = "";
+
+            switch (error) {
+                case CountingError.Limit: 
+                    msg = `Sorry <@${message.author.id}>, you can only count up to ${guild.counting.limit} times in a row.`;
+
+                    message.reply(msg)
+                    .then((newMessage: Message) => {
+                        message.delete();
+
+                        setTimeout(() => {
+                            newMessage.delete();
+                        }, guild.counting.textTimeout * 1000);
+                    });
+                    break;
+                
+                case CountingError.NaN:
+                case CountingError.NaI:
+                    msg = `Sorry <@${message.author.id}>, only whole numbers are allowed in this channel.`;
+
+                    message.reply(msg)
                     .then((newMessage: Message) => {
                         setTimeout(() => {
                             newMessage.delete();
                             message.delete();
                         }, guild.counting.textTimeout * 1000);
                     });
-                console.error(`Not counting: ${error}`);
-            });
+
+                    break;
+
+                default: 
+                    console.error("Not an Enum Value!");
+            }
+
+            console.error(`Not counting: ${error}`);
+        });
     }
 });
 

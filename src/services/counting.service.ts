@@ -1,18 +1,23 @@
 import { Message, MessageEmbed} from "discord.js";
 import { updateGuild } from "./database.service";
-import { GuideGuild } from "../models";
+import { GuideGuild, CountingError } from "../models";
 
 export async function count(message: Message, guild: GuideGuild): Promise<boolean> {
     return new Promise((resolve, reject) => {
         try {
             const newCount = Number(message.content);
             if (isNaN(newCount)) {
-                reject("Not a Number!");
+                reject(CountingError.NaN);
                 return;
             }
 
             if (!parseInt(message.content, 10) || newCount.toString().indexOf('.') > -1 || newCount.toString().indexOf(',') > -1) {
-                reject("Not a Integer!");
+                reject(CountingError.NaI);
+                return;
+            }
+
+            if (guild.counting.lastUserTag == message.author.tag && guild.counting.currLimit > guild.counting.limit) {
+                reject(CountingError.Limit);
                 return;
             }
 
@@ -43,8 +48,13 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                 return;
             }
 
+            if (guild.counting.lastUserTag == message.author.tag) {
+                guild.counting.currLimit++;
+            } else {
+                guild.counting.lastUserTag = message.author.tag;
+                guild.counting.currLimit = 1;
+            }
             guild.counting.currCount = newCount;
-            guild.counting.lastUserTag = message.author.tag;
             guild.counting.lastMsgId = message.id;
             updateGuild(guild).then(() => resolve(true)).catch((error) => reject(error));
         } catch(error) {
