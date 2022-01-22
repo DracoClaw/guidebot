@@ -1,6 +1,7 @@
-import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, Presence, MessageEmbed, Guild} from "discord.js";
+import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, GuildMember, PartialGuildMember, TextChannel} from "discord.js";
 import { connect, getOrCreateGuildById } from "./services/database.service";
-import { count } from "./services/counting.service"
+import { count } from "./services/counting.service";
+import { assignRandomTeam } from "./services/role.service";
 import config = require("../config.json");
 import { CommandHandler } from "./utils/commandHandler"
 import { ICommand } from "./commands/ICommand";
@@ -12,7 +13,7 @@ declare module "discord.js" {
     }
 }
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES] });
 const commandHandler = new CommandHandler(config.clientId);
 
 client.commands = new Collection();
@@ -137,6 +138,31 @@ client.on("interactionCreate", async (interaction: Interaction) => {
 
             console.error(`Not counting: ${error}`);
         });
+    }
+});
+
+client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) => {
+    console.log(`guildMemberUpdate Triggered!`);
+    
+    const memberRoleId = '702305122713206794'; // TODO: set this up as a config
+    const channel = client.channels.cache.get('790616237448495124') as TextChannel;
+
+    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
+    if (removedRoles.size > 0) {
+        // channel?.send(`Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
+        console.log(`Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
+    }
+
+    const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
+    if (addedRoles.size > 0) {
+        // channel?.send(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
+        console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
+    }
+
+    if (addedRoles.hasAny(memberRoleId)) {
+        // channel?.send(`New member: ${oldMember.user.tag}!`);
+        console.log(`New member: ${oldMember.user.tag}!`);
+        assignRandomTeam(newMember);
     }
 });
 
