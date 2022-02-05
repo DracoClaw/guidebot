@@ -145,7 +145,9 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     console.log(`guildMemberUpdate Triggered!`);
     
     const memberRoleId = '702305122713206794'; // TODO: set this up as a config
-    const channel = client.channels.cache.get('790616237448495124') as TextChannel;
+	const patreonRoleId = '730040122464141392';
+    const staffChannel = client.channels.cache.get('702303566458519573') as TextChannel;
+    const supporterChannel = client.channels.cache.get('753227742895407226') as TextChannel;
 
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
     if (removedRoles.size > 0) {
@@ -163,6 +165,12 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         // channel?.send(`New member: ${oldMember.user.tag}!`);
         console.log(`New member: ${oldMember.user.tag}!`);
         assignRandomTeam(newMember);
+    }
+	
+   if (addedRoles.hasAny(patreonRoleId)) {
+        staffChannel?.send(`New Patreon Supporter: ${oldMember.user}!`);
+        supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for suppoting GeneSy on Patreon. <:emoteLove:699777339235500042>`);
+        console.log(`New member: ${oldMember.user.tag}!`);
     }
 });
 
