@@ -172,6 +172,11 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for suppoting GeneSy on Patreon. <:emoteLove:699777339235500042>`);
         console.log(`New member: ${oldMember.user.tag}!`);
     }
+	
+    if (newMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp !== oldMember.premiumSinceTimestamp) {
+        staffChannel?.send(`New Server Booster: ${oldMember.user}!`);
+        supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for Boosting the server. <:emoteLove:699777339235500042>`);
+        console.log(`New member: ${oldMember.user.tag}!`);    }
 });
 
 client.login(config.token);
