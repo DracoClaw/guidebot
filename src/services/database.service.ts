@@ -1,5 +1,5 @@
 import * as mongoDB from "mongodb";
-import { GuideGuild, Counting } from "../models";
+import { GuideGuild, Counting, Spacer } from "../models";
 
 export const collections: { guilds?: mongoDB.Collection } = {}
 
@@ -25,7 +25,8 @@ export async function getOrCreateGuildById(id: string): Promise<GuideGuild> {
         const newGuild = new GuideGuild(
             id,
             "",
-            new Counting("", 0, 0, "", "", 10, "",3,1)
+            new Counting("", 0, 0, "", "", 10, "",3,1),
+            new Spacer([], [], [])
         )
 
         const result = (await collections.guilds?.insertOne(newGuild))
