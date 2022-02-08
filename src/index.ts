@@ -150,7 +150,7 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     const supporterChannel = client.channels.cache.get('753227742895407226') as TextChannel;
 	const generalChannel = client.channels.cache.get('697796824110465025') as TextChannel;
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
-	    const guild = await getOrCreateGuildById;
+	const guild = await getOrCreateGuildById(oldMember.guild.id);
 
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
@@ -176,11 +176,11 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
     }
 
-    if (addedRoles.hasAny(guild.spacer.pingRoles)) {
+    if (addedRoles.hasAny(...guild.spacer.pingRoles)) {
         console.log(`New ping role: ${oldMember.user.tag}!`);
     }
 	
-	    if (addedRoles.hasAny(memberRoleId)) {
+	if (addedRoles.hasAny(memberRoleId)) {
         // channel?.send(`New member: ${oldMember.user.tag}!`);
         console.log(`New member: ${oldMember.user.tag}!`);
         assignRandomTeam(newMember);

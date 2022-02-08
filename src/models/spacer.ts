@@ -1,5 +1,5 @@
 export default class Spacer {
-    constructor(public pingRoles: [],
-        public traitRoles: [],
-        public prefRoles: []) {}
-}
+    constructor(public pingRoles: string[],
+        public traitRoles: string[],
+        public prefRoles: string[]) {}
+} 
