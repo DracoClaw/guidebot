@@ -150,7 +150,8 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     const supporterChannel = client.channels.cache.get('753227742895407226') as TextChannel;
 	const generalChannel = client.channels.cache.get('697796824110465025') as TextChannel;
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
-	
+	    const guild = await getOrCreateGuildById;
+
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
   .setDescription(`The amazing ${newMember.user} has decided to support the app and pledged on GeneSy's [Patreon](https://www.patreon.com/genesy)! Thank you so much! <:emoteLove:699777339235500042>`)
@@ -175,7 +176,11 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
     }
 
-    if (addedRoles.hasAny(memberRoleId)) {
+    if (addedRoles.hasAny(guild.spacer.pingRoles)) {
+        console.log(`New ping role: ${oldMember.user.tag}!`);
+    }
+	
+	    if (addedRoles.hasAny(memberRoleId)) {
         // channel?.send(`New member: ${oldMember.user.tag}!`);
         console.log(`New member: ${oldMember.user.tag}!`);
         assignRandomTeam(newMember);
