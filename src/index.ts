@@ -151,7 +151,11 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
 	const generalChannel = client.channels.cache.get('697796824110465025') as TextChannel;
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
 	const guild = await getOrCreateGuildById(oldMember.guild.id);
-
+	
+	const pingSpacer = `842130955761221663`;
+	const traitSpacer = '702325520460808314';
+	const prefSpacer = '932305047981801543';
+	
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
   .setDescription(`The amazing ${newMember.user} has decided to support the app and pledged on GeneSy's [Patreon](https://www.patreon.com/genesy)! Thank you so much! <:emoteLove:699777339235500042>`)
@@ -176,9 +180,41 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
     }
 
-    if (addedRoles.hasAny(...guild.spacer.pingRoles)) {
-        console.log(`New ping role: ${oldMember.user.tag}!`);
-    }
+	if (addedRoles.hasAny(...guild.spacer.pingRoles)) {
+    if (newMember.roles.cache.hasAny(...guild.spacer.pingRoles)) {
+        console.log(`Ping role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(pingSpacer, 'User has a Ping role.');
+    }}
+	
+	if (removedRoles.hasAny(...guild.spacer.pingRoles)) {
+	if (!newMember.roles.cache.hasAny(...guild.spacer.pingRoles)) {
+        console.log(`Ping role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(pingSpacer, 'User has no Ping roles.');
+    }}
+	
+	if (addedRoles.hasAny(...guild.spacer.traitRoles)) {
+	if (newMember.roles.cache.hasAny(...guild.spacer.traitRoles)) {
+        console.log(`Trait role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(traitSpacer, 'User has a Trait role.');
+    }}
+	
+	if (removedRoles.hasAny(...guild.spacer.traitRoles)) {
+	if (!newMember.roles.cache.hasAny(...guild.spacer.traitRoles)) {
+        console.log(`Trait role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(traitSpacer, 'User has no Trait roles.');
+    }}
+	
+	if (addedRoles.hasAny(...guild.spacer.prefRoles)) {
+	if (newMember.roles.cache.hasAny(...guild.spacer.prefRoles)) {
+        console.log(`Preference role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(prefSpacer, 'User has a Preference role.');
+    }}
+	
+	if (removedRoles.hasAny(...guild.spacer.prefRoles)) {
+	if (!newMember.roles.cache.hasAny(...guild.spacer.prefRoles)) {
+        console.log(`Preference role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(prefSpacer, 'User has no Preference roles.');
+    }}
 	
 	if (addedRoles.hasAny(memberRoleId)) {
         // channel?.send(`New member: ${oldMember.user.tag}!`);
