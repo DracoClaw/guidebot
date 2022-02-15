@@ -164,7 +164,7 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
 	
 	const boostEmbed = new MessageEmbed()
   .setTitle(`<:serverBoost:870144685333676102> ${oldMember.user.tag} has boosted the server! <:serverBoost:870144685333676102>`)
-  .setDescription(`The generous member ${oldMember.user} just boosted the server!!\\nLets keep it up!! <:emoteLove:699777339235500042>`)
+  .setDescription(`The generous member ${oldMember.user} just boosted the server!!\nLets keep it up!! <:emoteLove:699777339235500042>`)
   .setColor("#F47FFF")
   .setFooter("After 7 days of boosting, your team will be awarded 50 points.")
   .setThumbnail(`${oldMember.displayAvatarURL()}`);
