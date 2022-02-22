@@ -2,6 +2,7 @@ import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionD
 import { connect, getOrCreateGuildById } from "./services/database.service";
 import { count } from "./services/counting.service";
 import { assignRandomTeam } from "./services/role.service";
+import { easterEgg } from "./services/eggs.service";
 import config = require("../config.json");
 import { CommandHandler } from "./utils/commandHandler"
 import { ICommand } from "./commands/ICommand";
@@ -96,7 +97,8 @@ client.on("interactionCreate", async (interaction: Interaction) => {
         count(message, guild)
         .then((result) => {
             if (result) {
-                message.react("✅");
+			    message.react("✅");
+				easterEgg(message);
             } else {
                 message.react("❌");
             }
