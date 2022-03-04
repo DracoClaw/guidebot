@@ -154,9 +154,9 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
 	const guild = await getOrCreateGuildById(oldMember.guild.id);
 	
-	const pingSpacer = `842130955761221663`;
-	const traitSpacer = '702325520460808314';
-	const prefSpacer = '932305047981801543';
+	const aSpacer = `842130955761221663`;
+	const bSpacer = '702325520460808314';
+	const cSpacer = '932305047981801543';
 	
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
@@ -182,40 +182,40 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
     }
 
-	if (addedRoles.hasAny(...guild.spacer.pingRoles)) {
-    if (newMember.roles.cache.hasAny(...guild.spacer.pingRoles)) {
-        console.log(`Ping role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(pingSpacer, 'User has a Ping role.');
+    if (newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
+        if (!newMember.roles.cache.hasAny(aSpacer)) {
+        console.log(`Group A role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(aSpacer, 'User has a Group A role.');
     }}
 	
-	if (removedRoles.hasAny(...guild.spacer.pingRoles)) {
-	if (!newMember.roles.cache.hasAny(...guild.spacer.pingRoles)) {
-        console.log(`Ping role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(pingSpacer, 'User has no Ping roles.');
+	if (!newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
+        if (newMember.roles.cache.hasAny(aSpacer)) {
+        console.log(`Group A role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(aSpacer, 'User has no Group A roles.');
     }}
 	
-	if (addedRoles.hasAny(...guild.spacer.traitRoles)) {
-	if (newMember.roles.cache.hasAny(...guild.spacer.traitRoles)) {
-        console.log(`Trait role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(traitSpacer, 'User has a Trait role.');
+    if (newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
+        if (!newMember.roles.cache.hasAny(bSpacer)) {
+        console.log(`Group B role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(bSpacer, 'User has a Group B role.');
     }}
 	
-	if (removedRoles.hasAny(...guild.spacer.traitRoles)) {
-	if (!newMember.roles.cache.hasAny(...guild.spacer.traitRoles)) {
-        console.log(`Trait role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(traitSpacer, 'User has no Trait roles.');
+	if (!newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
+        if (newMember.roles.cache.hasAny(bSpacer)) {
+        console.log(`Group B role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(bSpacer, 'User has no Group B roles.');
     }}
 	
-	if (addedRoles.hasAny(...guild.spacer.prefRoles)) {
-	if (newMember.roles.cache.hasAny(...guild.spacer.prefRoles)) {
-        console.log(`Preference role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(prefSpacer, 'User has a Preference role.');
+	if (newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
+        if (!newMember.roles.cache.hasAny(cSpacer)) {
+        console.log(`Group C role added: ${oldMember.user.tag}!`);
+		oldMember.roles.add(cSpacer, 'User has a Group C role.');
     }}
 	
-	if (removedRoles.hasAny(...guild.spacer.prefRoles)) {
-	if (!newMember.roles.cache.hasAny(...guild.spacer.prefRoles)) {
-        console.log(`Preference role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(prefSpacer, 'User has no Preference roles.');
+	if (!newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
+        if (newMember.roles.cache.hasAny(cSpacer)) {
+        console.log(`Group C role removed: ${oldMember.user.tag}!`);
+		oldMember.roles.remove(cSpacer, 'User has no Group C roles.');
     }}
 	
 	if (addedRoles.hasAny(memberRoleId)) {
