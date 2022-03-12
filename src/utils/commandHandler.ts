@@ -1,14 +1,11 @@
 import Commands from "../commands";
-
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config = require("../../config.json");
 import { ICommand } from "../commands/ICommand";
 
 export class CommandHandler {
-    guildId: string = config.guildId;
 
-    clientId: string;
+    clientId: string = 'process.env.APP_ID';
 
     commands: any[] = new Array();
 
@@ -25,14 +22,14 @@ export class CommandHandler {
             this.commandObjects.push(commandInstance);
         });
 
-        let token = config.token
+        let token = 'process.env.BOT_TOKEN'
         let rest = new REST({ version: "9" }).setToken(token);
 
         try {
             console.log("Registering Slash Commands!");
 
             await rest.put(
-                Routes.applicationGuildCommands(this.clientId, this.guildId),
+                Routes.applicationCommands(this.clientId),
                 { body: this.commands }
             ).then((response: any) => {
                 const registeredCommands: any[] = response;
