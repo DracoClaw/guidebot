@@ -9,7 +9,7 @@ export async function connect() {
 
     await client.connect();
 
-     const db = client.db(process.env.LIVE_DB!);
+     const db = client.db(process.env.DATABASE!);
     // const db = client.db("Guide1");
 
      const guildsCollection = db.collection(process.env.GUILD_COLLECTION!);
