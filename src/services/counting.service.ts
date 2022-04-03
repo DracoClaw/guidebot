@@ -45,7 +45,6 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
 
                 guild.counting.currCount = 0;
                 updateGuild(guild).then(() => resolve(false)).catch((error) => reject(error));
-                return;
             }
 
             if (guild.counting.lastUserTag == message.author.tag) {
