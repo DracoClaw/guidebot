@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { Client, Collection, Intents, Interaction, ApplicationCommandPermissionData, Message, MessageEmbed, GuildMember, PartialGuildMember, TextChannel} from "discord.js";
 import { connect, getOrCreateGuildById } from "./services/database.service";
 import { count } from "./services/counting.service";

@@ -5,15 +5,12 @@ export const collections: { guilds?: mongoDB.Collection } = {}
 
 export async function connect() {
      const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGODB_URI!);
-    // const client: mongoDB.MongoClient = new mongoDB.MongoClient("mongodb+srv://guideStaff:FWHMlUu0jZH0r4tP@guide0.dlcet.mongodb.net/GuideBot?retryWrites=true&w=majority");
 
     await client.connect();
 
      const db = client.db(process.env.DATABASE!);
-    // const db = client.db("Guide1");
 
      const guildsCollection = db.collection(process.env.GUILD_COLLECTION!);
-    // const guildsCollection = db.collection("guilds");
 
     collections.guilds = guildsCollection;
 }
