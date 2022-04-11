@@ -1,5 +1,4 @@
-import { Client,  Message } from "discord.js";
-import { updateGuild } from "./database.service";
+import { Message } from "discord.js";
 
 export async function easterEgg(message: Message) {
 

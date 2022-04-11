@@ -24,6 +24,13 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
             const oldCount = guild.counting.currCount;
             console.log(`Current Count: ${oldCount}`);
 
+            if (guild.counting.lastUserTag == message.author.tag) {
+                guild.counting.currLimit++;
+            } else {
+                guild.counting.lastUserTag = message.author.tag;
+                guild.counting.currLimit = 1;
+            }
+
             if (oldCount + 1 !== newCount) {
                 message.channel.send(`Sorry <@${message.author.id}>, but that is not right. The next number was **${oldCount + 1}**. Let's start over!`);
 
@@ -48,12 +55,6 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                 return;
             }
 
-            if (guild.counting.lastUserTag == message.author.tag) {
-                guild.counting.currLimit++;
-            } else {
-                guild.counting.lastUserTag = message.author.tag;
-                guild.counting.currLimit = 1;
-            }
             guild.counting.currCount = newCount;
             guild.counting.lastMsgId = message.id;
             updateGuild(guild).then(() => resolve(true)).catch((error) => reject(error));
