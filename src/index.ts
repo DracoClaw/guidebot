@@ -234,7 +234,7 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     }
 	
     if (newMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp !== oldMember.premiumSinceTimestamp) {
-        staffChannel?.send(`New Server Booster: ${oldMember.user}!`);
+        staffChannel?.send(`New Server Booster: ${oldMember.user}! Don't forget to give them points in 7 days.`);
         supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for Boosting the server. <:emoteLove:699777339235500042>`);
 		generalChannel?.send({embeds: [boostEmbed]}).catch(console.error);
         console.log(`New member: ${oldMember.user.tag}!`);    }
