@@ -4,15 +4,15 @@
     "manager": "npm",
     "token": "NzgxNTc2NjI0NTM3NjAwMDIx.X7_p9A.ZmgDCENJmWFrylWBW3TcWi0AOl0",
     "clientId": "781576624537600021",
-    "_token": "ODgyMTk0MDczMjg3NTI4NDY4.YS31QQ.NjjuWnm_PZj9bYJ8hNrjH4d7KH4",
+    "_token": "ODgyMTk0MDczMjg3NTI4NDY4.YS31QQ.oRKgAqKS-xkCmexrA3YPMy0_Awg",
     "_clientId": "882194073287528468",
     "staffRole": "723281594286080100",
     "guildId": "695630972082978986",
     "countingChannel": "852310805386625025",
     "prefix": ".g",
     "counting": {
-        "currCount": 1201,
-        "bestCount": 863,
+        "currCount": 69,
+        "bestCount": 420,
         "textTimeout": 10,
         "lastUserTag": "Luxiel#2748",
         "lastMsgId": "884434127456202782"

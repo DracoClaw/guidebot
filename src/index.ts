@@ -145,6 +145,16 @@ client.on("interactionCreate", async (interaction: Interaction) => {
     }
 });
 
+client.on ("messageDelete", async (message) => {
+    const guild = await getOrCreateGuildById(message.guildId!);
+    const countChannel = client.channels.cache.get(guild.counting.channel) as TextChannel;
+
+    if (message.channelId !== guild.counting.channel) return;
+    if (message.id !== guild.counting.lastMsgId) return;
+    await countChannel?.send(`${message.author}: ${message.content}`);
+    console.log(`Message deleted in the counting channel!`);
+  });
+
 client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) => {
     console.log(`guildMemberUpdate Triggered!`);
     

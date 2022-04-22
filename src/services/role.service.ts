@@ -75,7 +75,7 @@ export async function assignRandomTeam(member:GuildMember) {
     },
     {
       "name": "Tickets",
-      "value": "If you would like to host a giveaway (<#703283212104892436>), or need to report a user, this is the place to go. Simply react with :love_letter: to get started.",
+      "value": "If you would like to host a giveaway (<#703283212104892436>), or need to report a user, this is the place to go. Simply react with click the button to get started.",
       "inline": false
     },
     {
