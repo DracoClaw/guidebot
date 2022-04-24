@@ -166,10 +166,6 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
 	const guild = await getOrCreateGuildById(oldMember.guild.id);
 	
-	const aSpacer = `842130955761221663`;
-	const bSpacer = '702325520460808314';
-	const cSpacer = '932305047981801543';
-	
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
   .setDescription(`The amazing ${newMember.user} has decided to support the app and pledged on GeneSy's [Patreon](https://www.patreon.com/genesy)! Thank you so much! <:emoteLove:699777339235500042>`)
@@ -195,39 +191,39 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     }
 
     if (newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
-        if (!newMember.roles.cache.hasAny(aSpacer)) {
+        if (!newMember.roles.cache.hasAny(guild.spacer.aSpacer)) {
         console.log(`Group A role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(aSpacer, 'User has a Group A role.');
+		oldMember.roles.add(guild.spacer.aSpacer, 'User has a Group A role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
-        if (newMember.roles.cache.hasAny(aSpacer)) {
+        if (newMember.roles.cache.hasAny(guild.spacer.aSpacer)) {
         console.log(`Group A role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(aSpacer, 'User has no Group A roles.');
+		oldMember.roles.remove(guild.spacer.aSpacer, 'User has no Group A roles.');
     }}
 	
     if (newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
-        if (!newMember.roles.cache.hasAny(bSpacer)) {
+        if (!newMember.roles.cache.hasAny(guild.spacer.bSpacer)) {
         console.log(`Group B role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(bSpacer, 'User has a Group B role.');
+		oldMember.roles.add(guild.spacer.bSpacer, 'User has a Group B role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
-        if (newMember.roles.cache.hasAny(bSpacer)) {
+        if (newMember.roles.cache.hasAny(guild.spacer.bSpacer)) {
         console.log(`Group B role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(bSpacer, 'User has no Group B roles.');
+		oldMember.roles.remove(guild.spacer.bSpacer, 'User has no Group B roles.');
     }}
 	
 	if (newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
-        if (!newMember.roles.cache.hasAny(cSpacer)) {
+        if (!newMember.roles.cache.hasAny(guild.spacer.cSpacer)) {
         console.log(`Group C role added: ${oldMember.user.tag}!`);
-		oldMember.roles.add(cSpacer, 'User has a Group C role.');
+		oldMember.roles.add(guild.spacer.cSpacer, 'User has a Group C role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
-        if (newMember.roles.cache.hasAny(cSpacer)) {
+        if (newMember.roles.cache.hasAny(guild.spacer.cSpacer)) {
         console.log(`Group C role removed: ${oldMember.user.tag}!`);
-		oldMember.roles.remove(cSpacer, 'User has no Group C roles.');
+		oldMember.roles.remove(guild.spacer.cSpacer, 'User has no Group C roles.');
     }}
 	
 	if (addedRoles.hasAny(memberRoleId)) {
