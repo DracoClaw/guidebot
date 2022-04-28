@@ -94,7 +94,7 @@ client.on("interactionCreate", async (interaction: Interaction) => {
     const guild = await getOrCreateGuildById(message.guildId!);
 
     if (message.channelId === guild.counting.channel) {
-        console.log(`Message Received in the counting channel!`);
+        console.log(`${guild.guildId} | Message Received in the counting channel!`);
 
         count(message, guild)
         .then((result) => {
@@ -152,11 +152,13 @@ client.on ("messageDelete", async (message) => {
     if (message.channelId !== guild.counting.channel) return;
     if (message.id !== guild.counting.lastMsgId) return;
     await countChannel?.send(`${message.author}: ${message.content}`);
-    console.log(`Message deleted in the counting channel!`);
+    console.log(`${guild.guildId} | Message deleted in the counting channel!`);
   });
 
 client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMember, newMember: GuildMember) => {
-    console.log(`guildMemberUpdate Triggered!`);
+    const guild = await getOrCreateGuildById(oldMember.guild.id);
+
+    console.log(`${guild.guildId} | guildMemberUpdate Triggered!`);
     
     const memberRoleId = '702305122713206794'; // TODO: set this up as a config
 	const patreonRoleId = '730040122464141392';
@@ -164,7 +166,7 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
     const supporterChannel = client.channels.cache.get('753227742895407226') as TextChannel;
 	const generalChannel = client.channels.cache.get('697796824110465025') as TextChannel;
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
-	const guild = await getOrCreateGuildById(oldMember.guild.id);
+	
 	
 	const patreonEmbed = new MessageEmbed()
   .setTitle(`${oldMember.user.tag} has pledged on Patreon!`)
@@ -181,54 +183,54 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
 	
     if (removedRoles.size > 0) {
         // channel?.send(`Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
-        console.log(`Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
+        console.log(`${guild.guildId} | Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
     }
 
     const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
     if (addedRoles.size > 0) {
         // channel?.send(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
-        console.log(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
+        console.log(`${guild.guildId} | Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
     }
 
     if (newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
         if (!newMember.roles.cache.hasAny(guild.spacer.aSpacer)) {
-        console.log(`Group A role added: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group A role added: ${oldMember.user.tag}!`);
 		oldMember.roles.add(guild.spacer.aSpacer, 'User has a Group A role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.aRoles)) {
         if (newMember.roles.cache.hasAny(guild.spacer.aSpacer)) {
-        console.log(`Group A role removed: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group A role removed: ${oldMember.user.tag}!`);
 		oldMember.roles.remove(guild.spacer.aSpacer, 'User has no Group A roles.');
     }}
 	
     if (newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
         if (!newMember.roles.cache.hasAny(guild.spacer.bSpacer)) {
-        console.log(`Group B role added: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group B role added: ${oldMember.user.tag}!`);
 		oldMember.roles.add(guild.spacer.bSpacer, 'User has a Group B role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.bRoles)) {
         if (newMember.roles.cache.hasAny(guild.spacer.bSpacer)) {
-        console.log(`Group B role removed: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group B role removed: ${oldMember.user.tag}!`);
 		oldMember.roles.remove(guild.spacer.bSpacer, 'User has no Group B roles.');
     }}
 	
 	if (newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
         if (!newMember.roles.cache.hasAny(guild.spacer.cSpacer)) {
-        console.log(`Group C role added: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group C role added: ${oldMember.user.tag}!`);
 		oldMember.roles.add(guild.spacer.cSpacer, 'User has a Group C role.');
     }}
 	
 	if (!newMember.roles.cache.hasAny(...guild.spacer.cRoles)) {
         if (newMember.roles.cache.hasAny(guild.spacer.cSpacer)) {
-        console.log(`Group C role removed: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | Group C role removed: ${oldMember.user.tag}!`);
 		oldMember.roles.remove(guild.spacer.cSpacer, 'User has no Group C roles.');
     }}
 	
 	if (addedRoles.hasAny(memberRoleId)) {
         // channel?.send(`New member: ${oldMember.user.tag}!`);
-        console.log(`New member: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
         assignRandomTeam(newMember);
     }
 	
@@ -236,14 +238,14 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         staffChannel?.send(`New Patreon Supporter: ${oldMember.user}!`);
         supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for suppoting GeneSy on Patreon. <:emoteLove:699777339235500042>`);
 		generalChannel?.send({embeds: [patreonEmbed]}).catch(console.error);
-        console.log(`New member: ${oldMember.user.tag}!`);
+        console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
     }
 	
     if (newMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp !== oldMember.premiumSinceTimestamp) {
         staffChannel?.send(`New Server Booster: ${oldMember.user}! Don't forget to give them points in 7 days.`);
         supporterChannel?.send(`Welcome ${oldMember.user}! Thank you for Boosting the server. <:emoteLove:699777339235500042>`);
 		generalChannel?.send({embeds: [boostEmbed]}).catch(console.error);
-        console.log(`New member: ${oldMember.user.tag}!`);    }
+        console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);    }
 });
 
 client.login(config.token);
