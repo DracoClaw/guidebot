@@ -16,7 +16,7 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                 return;
             }
 
-            if (guild.counting.lastUserTag == message.author.tag && guild.counting.currLimit >= guild.counting.limit) {
+            if (guild.counting.lastUserID == message.author.id && guild.counting.currLimit >= guild.counting.limit) {
                 reject(CountingError.Limit);
                 return;
             }
@@ -24,10 +24,10 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
             const oldCount = guild.counting.currCount;
             console.log(`Current Count: ${oldCount}`);
 
-            if (guild.counting.lastUserTag == message.author.tag) {
+            if (guild.counting.lastUserID == message.author.id) {
                 guild.counting.currLimit++;
             } else {
-                guild.counting.lastUserTag = message.author.tag;
+                guild.counting.lastUserID = message.author.id;
                 guild.counting.currLimit = 1;
             }
 
@@ -40,8 +40,7 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                     let embedMsg = message.channel.messages.fetch(guild.counting.embedMsg).then((msg: Message) => {
                         const embedMsg = new MessageEmbed()
                         .setTitle("HIGH SCORE")
-                        .setDescription(`[${oldCount.toString()}](https://discord.com/channels/${guild.guildId}/${guild.counting.channel}/${guild.counting.lastMsgId})`)
-                        .setFooter(guild.counting.lastUserTag)
+                        .setDescription(`<@${guild.counting.lastUserID}>: [${oldCount.toString()}](https://discord.com/channels/${guild.guildId}/${guild.counting.channel}/${guild.counting.lastMsgId})`)
                         .setTimestamp();
                         msg.edit({ embeds: [embedMsg] })
                     })

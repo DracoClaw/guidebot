@@ -6,8 +6,6 @@ import config = require("../../config.json");
 import { ICommand } from "../commands/ICommand";
 
 export class CommandHandler {
-    guildId: string = config.guildId;
-
     clientId: string;
 
     commands: any[] = new Array();
@@ -15,7 +13,7 @@ export class CommandHandler {
     commandObjects: ICommand[] = new Array();
 
     constructor(clientId: string) {
-        this.clientId = clientId;
+        this.clientId = `process.env.BOT_ID`;
     }
 
     async registerCommands(): Promise<void> {
@@ -25,14 +23,14 @@ export class CommandHandler {
             this.commandObjects.push(commandInstance);
         });
 
-        let token = config.token
+        let token = `process.env.BOT_TOKEN`;
         let rest = new REST({ version: "9" }).setToken(token);
 
         try {
             console.log("Registering Slash Commands!");
 
             await rest.put(
-                Routes.applicationGuildCommands(this.clientId, this.guildId),
+                Routes.applicationCommands(this.clientId),
                 { body: this.commands }
             ).then((response: any) => {
                 const registeredCommands: any[] = response;
