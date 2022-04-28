@@ -78,7 +78,9 @@ client.on("ready", () => {
 client.on("interactionCreate", async (interaction: Interaction) => {
     if (!interaction.isCommand()) return;
 
-    console.log("Command Triggered!");
+    const guild = await getOrCreateGuildById(interaction.guildId!);
+
+    console.log(`${guild.guildId} | Command Triggered!`);
 
     const commandName = interaction.commandName;
 
@@ -137,10 +139,10 @@ client.on("interactionCreate", async (interaction: Interaction) => {
                     break;
 
                 default: 
-                    console.error("Not an Enum Value!");
+                    console.error(`${guild.guildId} | Not an Enum Value!`);
             }
 
-            console.error(`Not counting: ${error}`);
+            console.error(`${guild.guildId} | Not counting: ${error}`);
         });
     }
 });

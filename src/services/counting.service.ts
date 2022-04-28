@@ -22,7 +22,7 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
             }
 
             const oldCount = guild.counting.currCount;
-            console.log(`Current Count: ${oldCount}`);
+            console.log(`${guild.guildId} | Current Count: ${oldCount}`);
 
             if (guild.counting.lastUserID == message.author.id) {
                 guild.counting.currLimit++;
@@ -44,7 +44,7 @@ export async function count(message: Message, guild: GuideGuild): Promise<boolea
                         .setTimestamp();
                         msg.edit({ embeds: [embedMsg] })
                     })
-                    .catch((error) => console.error(`Unable to get Embed Message: ${error}`));
+                    .catch((error) => console.error(`${guild.guildId} | Unable to get Embed Message: ${error}`));
 
                     message.channel.send(`NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`);
                 }
