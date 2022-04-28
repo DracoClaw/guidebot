@@ -5,7 +5,6 @@ import { connect, getOrCreateGuildById } from "./services/database.service";
 import { count } from "./services/counting.service";
 import { assignRandomTeam } from "./services/role.service";
 import { easterEgg } from "./services/eggs.service";
-import config = require("../config.json");
 import { CommandHandler } from "./utils/commandHandler"
 import { ICommand } from "./commands/ICommand";
 import { CountingError } from "./models";
@@ -17,7 +16,7 @@ declare module "discord.js" {
 }
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES] });
-const commandHandler = new CommandHandler(config.clientId);
+const commandHandler = new CommandHandler(`process.env.BOT_ID`);
 
 client.commands = new Collection();
 
@@ -250,4 +249,4 @@ client.on("guildMemberUpdate", async (oldMember: GuildMember | PartialGuildMembe
         console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);    }
 });
 
-client.login(config.token);
+client.login(process.env.BOT_TOKEN);

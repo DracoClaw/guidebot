@@ -2,7 +2,6 @@ import Commands from "../commands";
 
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config = require("../../config.json");
 import { ICommand } from "../commands/ICommand";
 
 export class CommandHandler {
