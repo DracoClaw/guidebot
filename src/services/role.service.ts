@@ -2,6 +2,8 @@ import { Client, GuildMember, MessageEmbed, TextChannel } from "discord.js";
 
 export async function assignRandomTeam(member:GuildMember) {
     
+    if (member.guild.id != "695630972082978986") return;
+
     // TODO: Set those as config
     const owl = '865293168894148638';
     const nook = '865293209478103050';

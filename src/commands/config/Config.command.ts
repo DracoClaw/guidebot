@@ -9,6 +9,8 @@ export class ConfigCommand implements ICommand{
     commandId: string = "";
 
     data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder();
+
+    isAdminCommand: boolean = true;
         
     constructor() {
         this.data = new SlashCommandBuilder()

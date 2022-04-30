@@ -18,7 +18,7 @@ export class CommandHandler {
     async registerCommands(): Promise<void> {
         Commands.forEach((command) => {
             let commandInstance = new command();
-            this.commands.push(commandInstance.data.toJSON());
+            this.commands.push(this.processAdminPermissions(commandInstance.data.toJSON(), commandInstance.isAdminCommand));
             this.commandObjects.push(commandInstance);
         });
 
@@ -44,5 +44,15 @@ export class CommandHandler {
         } catch(error) {
             console.error(`Error registering Slash Commands: ${error}`);
         }
+    }
+
+    // TODO: Swap once d.js supports perms v2
+    private processAdminPermissions(commandJSON: Object, isAdminCommand: boolean): any {
+        if (isAdminCommand) {
+            let adminPerm = (1 << 4); // This refers to the "Manage Channels" permission.
+            return { ...commandJSON, "default_member_permissions": adminPerm };
+        }
+
+        return commandJSON;
     }
 }

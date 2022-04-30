@@ -6,5 +6,7 @@ export interface ICommand {
 
     data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
 
-    execute(interaction: CommandInteraction): void
+    isAdminCommand: boolean;
+
+    execute(interaction: CommandInteraction): void;
 }

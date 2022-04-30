@@ -6,6 +6,8 @@ export class PingCommand implements ICommand{
     commandId: string = "";
 
     data: SlashCommandBuilder = new SlashCommandBuilder();
+
+    isAdminCommand: boolean = true;
         
     constructor() {
         this.data = new SlashCommandBuilder()

@@ -45,29 +45,29 @@ client.on("ready", () => {
         connect()
         .then(() => console.log("Connected to MongoDB!"))
         .then(() => {
-            client.guilds.cache.forEach((guild, guildId, guildMap) => {
-                if (guild) {
-                    getOrCreateGuildById(guild.id).then((guildConfig) => {
-                        console.log(`Setting Staff Role permissions to Guild: ${guild.name}`);
-                        commandHandler.commandObjects.forEach((command) => {
-                            guild.commands.fetch(command.commandId).then((appCommand) => {
-                                console.log(`Setting Perms to command: ${command.data.name}`);
+            // client.guilds.cache.forEach((guild, guildId, guildMap) => {
+            //     if (guild) {
+            //         getOrCreateGuildById(guild.id).then((guildConfig) => {
+            //             console.log(`Setting Staff Role permissions to Guild: ${guild.name}`);
+            //             commandHandler.commandObjects.forEach((command) => {
+            //                 guild.commands.fetch(command.commandId).then((appCommand) => {
+            //                     console.log(`Setting Perms to command: ${command.data.name}`);
 
-                                const permissions: ApplicationCommandPermissionData[] = [
-                                    {
-                                        id: guildConfig.staffRole,
-                                        permission: true,
-                                        type: "ROLE"
-                                    }
-                                ];
+            //                     const permissions: ApplicationCommandPermissionData[] = [
+            //                         {
+            //                             id: guildConfig.staffRole,
+            //                             permission: true,
+            //                             type: "ROLE"
+            //                         }
+            //                     ];
             
-                                appCommand.permissions.add({ permissions });
-                            })
-                            .catch((error) => console.error(`Unable to set permissions to command "${command.data.name}" for guild "${guild.name}": ${error}`));
-                        });
-                    });
-                }
-            });
+            //                     appCommand.permissions.add({ permissions });
+            //                 })
+            //                 .catch((error) => console.error(`Unable to set permissions to command "${command.data.name}" for guild "${guild.name}": ${error}`));
+            //             });
+            //         });
+            //     }
+            // });
             console.log("GuideBot Started!");
         })
         .catch((error) => console.error(`Unable to start GuideBot: ${error}`));
