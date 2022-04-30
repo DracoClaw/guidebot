@@ -48,10 +48,10 @@ export class CommandHandler {
 
     // TODO: Swap once d.js supports perms v2
     private processAdminPermissions(commandJSON: Object, isAdminCommand: boolean): any {
-        if (isAdminCommand && false) {
+        if (isAdminCommand) {
             let adminPerm = 0x8; // This refers to the "Administrator" permission.
             let result = { ...commandJSON,"type": 1,"default_member_permissions": adminPerm };
-            console.log(`command JSON: ${JSON.stringify(result)}`);
+            // console.log(`command JSON: ${JSON.stringify(result)}`);
             return result;
         }
 
