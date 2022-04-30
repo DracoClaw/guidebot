@@ -49,8 +49,9 @@ export class CommandHandler {
     // TODO: Swap once d.js supports perms v2
     private processAdminPermissions(commandJSON: Object, isAdminCommand: boolean): any {
         if (isAdminCommand) {
-            let adminPerm = (1 << 4); // This refers to the "Manage Channels" permission.
-            return { ...commandJSON, "default_member_permissions": adminPerm };
+            let adminPerm = (1 << 4).toString(); // This refers to the "Manage Channels" permission.
+            let result = { ...commandJSON, "default_member_permissions": adminPerm };
+            return result;
         }
 
         return commandJSON;
