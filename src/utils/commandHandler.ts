@@ -51,7 +51,7 @@ export class CommandHandler {
         if (isAdminCommand) {
             let adminPerm = (1 << 4).toString(); // This refers to the "Manage Channels" permission.
             let result = { ...commandJSON, "default_member_permissions": adminPerm };
-            console.log(`command JSON: ${result}`);
+            console.log(`command JSON: ${JSON.stringify(result)}`);
             return result;
         }
 
