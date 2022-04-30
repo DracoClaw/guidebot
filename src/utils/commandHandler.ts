@@ -50,7 +50,7 @@ export class CommandHandler {
     private processAdminPermissions(commandJSON: Object, isAdminCommand: boolean): any {
         if (isAdminCommand) {
             let adminPerm = "0x8"; // This refers to the "Administrator" permission.
-            let result = { ...commandJSON, "default_member_permissions": adminPerm };
+            let result = { ...commandJSON,"type": 1,"default_member_permissions": adminPerm };
             console.log(`command JSON: ${JSON.stringify(result)}`);
             return result;
         }
