@@ -13,7 +13,7 @@ export class PingCommand implements ICommand{
         this.data = new SlashCommandBuilder()
             .setName("ping")
             .setDescription("Returns the WebSocket Latency.")
-            .setDefaultPermission(false);
+            //.setDefaultPermission(false);
     }
 
     async execute(interaction: CommandInteraction) {

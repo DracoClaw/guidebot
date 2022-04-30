@@ -13,7 +13,7 @@ export class TestCommand implements ICommand{
         this.data = new SlashCommandBuilder()
             .setName("test")
             .setDescription("Stub test, for now.")
-            .setDefaultPermission(false);
+            //.setDefaultPermission(false);
     }
 
     async execute(interaction: CommandInteraction) {

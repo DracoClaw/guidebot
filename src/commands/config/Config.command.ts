@@ -16,7 +16,7 @@ export class ConfigCommand implements ICommand{
         this.data = new SlashCommandBuilder()
             .setName("config")
             .setDescription("Configure paramaters")
-            .setDefaultPermission(false)
+            //.setDefaultPermission(false)
             .addSubcommand(option =>
                 option.setName("get")
                 .setDescription("Gets a configuration parameter's value.")
