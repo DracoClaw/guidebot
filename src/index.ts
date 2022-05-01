@@ -16,7 +16,7 @@ declare module "discord.js" {
 }
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES] });
-const commandHandler = new CommandHandler(`process.env.BOT_ID`);
+const commandHandler = new CommandHandler(process.env.APP_ID!);
 
 client.commands = new Collection();
 

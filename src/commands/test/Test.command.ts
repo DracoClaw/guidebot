@@ -12,15 +12,14 @@ export class TestCommand implements ICommand{
     constructor() {
         this.data = new SlashCommandBuilder()
             .setName("test")
-            .setDescription("Stub test, for now.")
+            .setDescription("Misc test command. Currently sends a new Counting HS Embed.")
             //.setDefaultPermission(false);
     }
 
     async execute(interaction: CommandInteraction) {
         const embedMsg = new MessageEmbed()
         .setTitle("HIGH SCORE")
-        .setDescription("0")
-        .setFooter("<@341680387979870219>")
+        .setDescription("<@341680387979870219>: 0")
         .setTimestamp();
 
         await interaction.channel?.send({ embeds: [embedMsg] });

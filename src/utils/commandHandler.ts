@@ -12,7 +12,7 @@ export class CommandHandler {
     commandObjects: ICommand[] = new Array();
 
     constructor(clientId: string) {
-        this.clientId = `process.env.BOT_ID`;
+        this.clientId = `process.env.APP_ID`;
     }
 
     async registerCommands(): Promise<void> {
