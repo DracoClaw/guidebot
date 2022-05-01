@@ -1,23 +1,24 @@
-const BaseCommand = require('../../utils/structures/BaseCommand');
-const Discord = require('discord.js');
+const BaseCommand = require("../../utils/structures/BaseCommand");
+const Discord = require("discord.js");
 
 module.exports = class TestCommand extends BaseCommand {
   constructor() {
-    super('test', 'testing', []);
+    super("test", "testing", []);
   }
 
   async run(client, message, args) {
-
     message.channel.send("Mention the role you want to randomize");
-    await message.channel.awaitMessages(m => m.author.id == message.author.id,
-      { max: 1, time: 15000 }).then(collected => {
-
+    await message.channel
+      .awaitMessages((m) => m.author.id == message.author.id, {
+        max: 1,
+        time: 15000,
+      })
+      .then((collected) => {
         try {
           var role = collected.first().content.replace("<@&", "").split(">")[0];
           role = message.guild.roles.cache.get(role);
-          
-          console.log(role.members.map(m => m.user.username));
 
+          console.log(role.members.map((m) => m.user.username));
         } catch (err) {
           console.log(err);
 
@@ -27,7 +28,6 @@ module.exports = class TestCommand extends BaseCommand {
             message.channel.send("The mentioned role does not exist.");
           }
         }
-
       });
   }
-}
+};

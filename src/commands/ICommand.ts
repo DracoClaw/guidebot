@@ -1,12 +1,15 @@
-import { CommandInteraction, Message } from "discord.js"
-import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders"
+import { CommandInteraction, Message } from "discord.js";
+import {
+  SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+} from "@discordjs/builders";
 
 export interface ICommand {
-    commandId: string;
+  commandId: string;
 
-    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
 
-    isAdminCommand: boolean;
+  isAdminCommand: boolean;
 
-    execute(interaction: CommandInteraction): void;
+  execute(interaction: CommandInteraction): void;
 }

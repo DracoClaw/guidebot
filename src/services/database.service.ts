@@ -1,54 +1,56 @@
 import * as mongoDB from "mongodb";
 import { GuideGuild, Counting, Spacer } from "../models";
 
-export const collections: { guilds?: mongoDB.Collection } = {}
+export const collections: { guilds?: mongoDB.Collection } = {};
 
 export async function connect() {
-     const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.MONGODB_URI!);
+  const client: mongoDB.MongoClient = new mongoDB.MongoClient(
+    process.env.MONGODB_URI!
+  );
 
-    await client.connect();
+  await client.connect();
 
-     const db = client.db(process.env.DATABASE!);
+  const db = client.db(process.env.DATABASE!);
 
-     const guildsCollection = db.collection(process.env.GUILD_COLLECTION!);
+  const guildsCollection = db.collection(process.env.GUILD_COLLECTION!);
 
-    collections.guilds = guildsCollection;
+  collections.guilds = guildsCollection;
 }
 
 export async function getOrCreateGuildById(id: string): Promise<GuideGuild> {
-    try {
-        const query = { guildId: id };
-        const guild = (await collections.guilds?.findOne(query)) as GuideGuild;
+  try {
+    const query = { guildId: id };
+    const guild = (await collections.guilds?.findOne(query)) as GuideGuild;
 
-        if (guild) return Promise.resolve(guild);
+    if (guild) return Promise.resolve(guild);
 
-        const newGuild = new GuideGuild(
-            id,
-            "",
-            new Counting("", 0, 0, "", "", 10, "",3,1),
-            new Spacer([], [], [], "", "", "")
-        )
+    const newGuild = new GuideGuild(
+      id,
+      "",
+      new Counting("", 0, 0, "", "", 10, "", 3, 1),
+      new Spacer([], [], [], "", "", "")
+    );
 
-        const result = (await collections.guilds?.insertOne(newGuild))
+    const result = await collections.guilds?.insertOne(newGuild);
 
-        if (result) return Promise.resolve(newGuild);
+    if (result) return Promise.resolve(newGuild);
 
-        return Promise.reject("Failed to insert new guild!");
-    } catch(error) {
-        return Promise.reject(error);
-    }
+    return Promise.reject("Failed to insert new guild!");
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function updateGuild(guild: GuideGuild): Promise<GuideGuild> {
-    try {
-        const query = { _id: guild._id} 
+  try {
+    const query = { _id: guild._id };
 
-        const result = await collections.guilds?.updateOne(query, { $set: guild } )
+    const result = await collections.guilds?.updateOne(query, { $set: guild });
 
-        if (result) return Promise.resolve(guild);
+    if (result) return Promise.resolve(guild);
 
-        return Promise.reject("Failed to update guild!");
-    } catch(error) {
-        return Promise.reject(error);
-    }
+    return Promise.reject("Failed to update guild!");
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }

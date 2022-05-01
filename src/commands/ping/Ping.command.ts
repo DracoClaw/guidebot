@@ -2,21 +2,21 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
 import { ICommand } from "../ICommand";
 
-export class PingCommand implements ICommand{
-    commandId: string = "";
+export class PingCommand implements ICommand {
+  commandId: string = "";
 
-    data: SlashCommandBuilder = new SlashCommandBuilder();
+  data: SlashCommandBuilder = new SlashCommandBuilder();
 
-    isAdminCommand: boolean = true;
-        
-    constructor() {
-        this.data = new SlashCommandBuilder()
-            .setName("ping")
-            .setDescription("Returns the WebSocket Latency.")
-            //.setDefaultPermission(false);
-    }
+  isAdminCommand: boolean = true;
 
-    async execute(interaction: CommandInteraction) {
-        await interaction.reply(`Ping: ${interaction.client.ws.ping}ms`);
-    }
+  constructor() {
+    this.data = new SlashCommandBuilder()
+      .setName("ping")
+      .setDescription("Returns the WebSocket Latency.");
+    //.setDefaultPermission(false);
+  }
+
+  async execute(interaction: CommandInteraction) {
+    await interaction.reply(`Ping: ${interaction.client.ws.ping}ms`);
+  }
 }
