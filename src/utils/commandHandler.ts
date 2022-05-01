@@ -1,5 +1,4 @@
 import Commands from "../commands";
-
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { ICommand } from "../commands/ICommand";
@@ -12,7 +11,7 @@ export class CommandHandler {
     commandObjects: ICommand[] = new Array();
 
     constructor(clientId: string) {
-        this.clientId = `process.env.APP_ID`;
+        this.clientId = process.env.APP_ID!;
     }
 
     async registerCommands(): Promise<void> {
@@ -22,7 +21,7 @@ export class CommandHandler {
             this.commandObjects.push(commandInstance);
         });
 
-        let token = `process.env.BOT_TOKEN`;
+        let token = process.env.BOT_TOKEN!;
         let rest = new REST({ version: "9" }).setToken(token);
 
         try {
