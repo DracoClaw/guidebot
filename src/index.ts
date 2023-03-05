@@ -1,26 +1,24 @@
-import "dotenv/config";
+import 'dotenv/config';
 
 import {
   Client,
   Collection,
   Intents,
   Interaction,
-  ApplicationCommandPermissionData,
   Message,
-  MessageEmbed,
   GuildMember,
   PartialGuildMember,
   TextChannel,
-} from "discord.js";
-import { connect, getOrCreateGuildById } from "./services/database.service";
-import { count } from "./services/counting.service";
-import { assignRandomTeam } from "./services/role.service";
-import { easterEgg } from "./services/eggs.service";
-import { CommandHandler } from "./utils/commandHandler";
-import { ICommand } from "./commands/ICommand";
-import { CountingError } from "./models";
+} from 'discord.js';
+import { connect, getOrCreateGuildById } from './services/database.service';
+import { count } from './services/counting.service';
+import { assignRandomTeam } from './services/role.service';
+import { easterEgg } from './services/eggs.service';
+import { CommandHandler } from './utils/commandHandler';
+import { ICommand } from './commands/ICommand';
+import { CountingError } from './models';
 
-declare module "discord.js" {
+declare module 'discord.js' {
   export interface Client {
     commands: Collection<unknown, any>;
   }
@@ -46,54 +44,31 @@ commandHandler.registerCommands().then(() => {
   });
 });
 
-client.on("ready", () => {
-  console.log("GuideBot Starting!");
+client.on('ready', () => {
+  console.log('GuideBot Starting!');
 
   client.user?.setPresence({
-    status: "online",
+    status: 'online',
     activities: [
       {
-        name: "Animal Crossing: New Horizons",
-        type: "PLAYING",
+        name: 'Animal Crossing: New Horizons',
+        type: 'PLAYING',
       },
     ],
   });
 
   client.application?.fetch().then((application) => {
     connect()
-      .then(() => console.log("Connected to MongoDB!"))
+      .then(() => console.log('Connected to MongoDB!'))
       .then(() => {
-        // client.guilds.cache.forEach((guild, guildId, guildMap) => {
-        //     if (guild) {
-        //         getOrCreateGuildById(guild.id).then((guildConfig) => {
-        //             console.log(`Setting Staff Role permissions to Guild: ${guild.name}`);
-        //             commandHandler.commandObjects.forEach((command) => {
-        //                 guild.commands.fetch(command.commandId).then((appCommand) => {
-        //                     console.log(`Setting Perms to command: ${command.data.name}`);
-
-        //                     const permissions: ApplicationCommandPermissionData[] = [
-        //                         {
-        //                             id: guildConfig.staffRole,
-        //                             permission: true,
-        //                             type: "ROLE"
-        //                         }
-        //                     ];
-
-        //                     appCommand.permissions.add({ permissions });
-        //                 })
-        //                 .catch((error) => console.error(`Unable to set permissions to command "${command.data.name}" for guild "${guild.name}": ${error}`));
-        //             });
-        //         });
-        //     }
-        // });
-        console.log("GuideBot Started!");
+        console.log('GuideBot Started!');
       })
       .catch((error) => console.error(`Unable to start GuideBot: ${error}`));
   });
 });
 
 client
-  .on("interactionCreate", async (interaction: Interaction) => {
+  .on('interactionCreate', async (interaction: Interaction) => {
     if (!interaction.isCommand()) return;
 
     const guild = await getOrCreateGuildById(interaction.guildId!);
@@ -109,7 +84,7 @@ client
       if (commandToExecute) commandToExecute.execute(interaction);
     }
   })
-  .on("messageCreate", async (message: Message) => {
+  .on('messageCreate', async (message: Message) => {
     if (message.author.bot) return;
 
     const guild = await getOrCreateGuildById(message.guildId!);
@@ -122,14 +97,14 @@ client
       count(message, guild)
         .then((result) => {
           if (result) {
-            message.react("✅");
+            message.react('✅');
             easterEgg(message);
           } else {
-            message.react("❌");
+            message.react('❌');
           }
         })
         .catch((error: CountingError | string) => {
-          let msg = "";
+          let msg = '';
 
           switch (error) {
             case CountingError.Limit:
@@ -166,7 +141,7 @@ client
     }
   });
 
-client.on("messageDelete", async (message) => {
+client.on('messageDelete', async (message) => {
   const guild = await getOrCreateGuildById(message.guildId!);
   const countChannel = client.channels.cache.get(
     guild.counting.channel
@@ -179,7 +154,7 @@ client.on("messageDelete", async (message) => {
 });
 
 client.on(
-  "guildMemberUpdate",
+  'guildMemberUpdate',
   async (
     oldMember: GuildMember | PartialGuildMember,
     newMember: GuildMember
@@ -188,27 +163,25 @@ client.on(
 
     console.log(`${guild.guildId} | guildMemberUpdate Triggered!`);
 
-    const memberRoleId = "702305122713206794"; // TODO: set this up as a config
-    const patreonRoleId = "730040122464141392";
+    const memberRoleId = '702305122713206794'; // TODO: set this up as a config
     const staffChannel = client.channels.cache.get(
-      "702303566458519573"
+      '702303566458519573'
     ) as TextChannel;
     const supporterChannel = client.channels.cache.get(
-      "753227742895407226"
+      '753227742895407226'
     ) as TextChannel;
     const generalChannel = client.channels.cache.get(
-      "697796824110465025"
+      '697796824110465025'
     ) as TextChannel;
     const removedRoles = oldMember.roles.cache.filter(
       (role) => !newMember.roles.cache.has(role.id)
     );
 
     if (removedRoles.size > 0) {
-      // channel?.send(`Role${removedRoles.size > 1 ? 's' : ''} ${removedRoles.map(role => role.name).join(", ")} removed from ${oldMember.displayName}!`);
       console.log(
         `${guild.guildId} | Role${
-          removedRoles.size > 1 ? "s" : ""
-        } ${removedRoles.map((role) => role.name).join(", ")} removed from ${
+          removedRoles.size > 1 ? 's' : ''
+        } ${removedRoles.map((role) => role.name).join(', ')} removed from ${
           oldMember.displayName
         }!`
       );
@@ -218,11 +191,10 @@ client.on(
       (role) => !oldMember.roles.cache.has(role.id)
     );
     if (addedRoles.size > 0) {
-      // channel?.send(`Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles.map(role => role.name).join(", ")} added to ${oldMember.displayName}!`);
       console.log(
-        `${guild.guildId} | Role${addedRoles.size > 1 ? "s" : ""} ${addedRoles
+        `${guild.guildId} | Role${addedRoles.size > 1 ? 's' : ''} ${addedRoles
           .map((role) => role.name)
-          .join(", ")} added to ${oldMember.displayName}!`
+          .join(', ')} added to ${oldMember.displayName}!`
       );
     }
 
@@ -231,7 +203,7 @@ client.on(
         console.log(
           `${guild.guildId} | Group A role added: ${oldMember.user.tag}!`
         );
-        oldMember.roles.add(guild.spacer.aSpacer, "User has a Group A role.");
+        oldMember.roles.add(guild.spacer.aSpacer, 'User has a Group A role.');
       }
     }
 
@@ -242,7 +214,7 @@ client.on(
         );
         oldMember.roles.remove(
           guild.spacer.aSpacer,
-          "User has no Group A roles."
+          'User has no Group A roles.'
         );
       }
     }
@@ -252,7 +224,7 @@ client.on(
         console.log(
           `${guild.guildId} | Group B role added: ${oldMember.user.tag}!`
         );
-        oldMember.roles.add(guild.spacer.bSpacer, "User has a Group B role.");
+        oldMember.roles.add(guild.spacer.bSpacer, 'User has a Group B role.');
       }
     }
 
@@ -263,7 +235,7 @@ client.on(
         );
         oldMember.roles.remove(
           guild.spacer.bSpacer,
-          "User has no Group B roles."
+          'User has no Group B roles.'
         );
       }
     }
@@ -273,7 +245,7 @@ client.on(
         console.log(
           `${guild.guildId} | Group C role added: ${oldMember.user.tag}!`
         );
-        oldMember.roles.add(guild.spacer.cSpacer, "User has a Group C role.");
+        oldMember.roles.add(guild.spacer.cSpacer, 'User has a Group C role.');
       }
     }
 
@@ -284,48 +256,21 @@ client.on(
         );
         oldMember.roles.remove(
           guild.spacer.cSpacer,
-          "User has no Group C roles."
+          'User has no Group C roles.'
         );
       }
     }
 
     if (addedRoles.hasAny(memberRoleId)) {
-      // channel?.send(`New member: ${oldMember.user.tag}!`);
       console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
       assignRandomTeam(newMember);
-    }
-
-    if (addedRoles.hasAny(patreonRoleId)) {
-      if (newMember.guild.id != "695630972082978986") return;
-      staffChannel?.send(`New Patreon Supporter: ${oldMember.user}!`);
-      supporterChannel?.send(
-        `Welcome ${oldMember.user}! Thank you for suppoting GeneSy on Patreon. <:emoteLove:699777339235500042>`
-      );
-      generalChannel
-        ?.send({
-          embeds: [
-            {
-              title: `${oldMember.user.tag} has pledged on Patreon!`,
-              color: 16082772,
-              description: `The amazing ${newMember.user} has decided to support the app and pledged on GeneSy's [Patreon](https://www.patreon.com/genesy)! Thank you so much! <:emoteLove:699777339235500042>`,
-              thumbnail: {
-                url: `${oldMember.displayAvatarURL()}`,
-              },
-              footer: {
-                text: "After 7 days of boosting, your team will be awarded 50 points.",
-              },
-            },
-          ],
-        })
-        .catch(console.error);
-      console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
     }
 
     if (
       newMember.premiumSinceTimestamp &&
       newMember.premiumSinceTimestamp !== oldMember.premiumSinceTimestamp
     ) {
-      if (newMember.guild.id != "695630972082978986") return;
+      if (newMember.guild.id != '695630972082978986') return;
       staffChannel?.send(
         `New Server Booster: ${oldMember.user}! Don't forget to give them points in 7 days.`
       );
@@ -343,7 +288,7 @@ client.on(
                 url: `${oldMember.displayAvatarURL()}`,
               },
               footer: {
-                text: "After 7 days of boosting, your team will be awarded 50 points.",
+                text: 'After 7 days of boosting, your team will be awarded 50 points.',
               },
             },
           ],
