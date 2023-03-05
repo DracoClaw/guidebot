@@ -1,6 +1,6 @@
-import { Message, MessageEmbed } from "discord.js";
-import { updateGuild } from "./database.service";
-import { GuideGuild, CountingError } from "../models";
+import { Message, MessageEmbed } from 'discord.js';
+import { updateGuild } from './database.service';
+import { GuideGuild, CountingError } from '../models';
 
 export async function count(
   message: Message,
@@ -16,8 +16,8 @@ export async function count(
 
       if (
         !parseInt(message.content, 10) ||
-        newCount.toString().indexOf(".") > -1 ||
-        newCount.toString().indexOf(",") > -1
+        newCount.toString().indexOf('.') > -1 ||
+        newCount.toString().indexOf(',') > -1
       ) {
         reject(CountingError.NaI);
         return;
@@ -57,8 +57,14 @@ export async function count(
             .fetch(guild.counting.embedMsg)
             .then((msg: Message) => {
               const embedMsg = new MessageEmbed()
-                .setTitle("HIGH SCORE")
-                .setDescription(`<@${guild.counting.lastUserID}>: [${oldCount.toString()}](https://discord.com/channels/${guild.guildId}/${guild.counting.channel}/${guild.counting.lastMsgId})`)
+                .setTitle('HIGH SCORE')
+                .setDescription(
+                  `<@${
+                    guild.counting.lastUserID
+                  }>: [${oldCount.toString()}](https://discord.com/channels/${
+                    guild.guildId
+                  }/${guild.counting.channel}/${guild.counting.lastMsgId})`
+                )
                 .setTimestamp();
               msg.edit({ embeds: [embedMsg] });
             })

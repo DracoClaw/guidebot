@@ -1,5 +1,5 @@
-import * as mongoDB from "mongodb";
-import { GuideGuild, Counting, Spacer } from "../models";
+import * as mongoDB from 'mongodb';
+import { GuideGuild, Counting, Spacer } from '../models';
 
 export const collections: { guilds?: mongoDB.Collection } = {};
 
@@ -26,16 +26,16 @@ export async function getOrCreateGuildById(id: string): Promise<GuideGuild> {
 
     const newGuild = new GuideGuild(
       id,
-      "",
-      new Counting("", 0, 0, "", "", 10, "", 3, 1),
-      new Spacer([], [], [], "", "", "")
+      '',
+      new Counting('', 0, 0, '', '', 10, '', 3, 1),
+      new Spacer([], [], [], '', '', '')
     );
 
     const result = await collections.guilds?.insertOne(newGuild);
 
     if (result) return Promise.resolve(newGuild);
 
-    return Promise.reject("Failed to insert new guild!");
+    return Promise.reject('Failed to insert new guild!');
   } catch (error) {
     return Promise.reject(error);
   }
@@ -49,7 +49,7 @@ export async function updateGuild(guild: GuideGuild): Promise<GuideGuild> {
 
     if (result) return Promise.resolve(guild);
 
-    return Promise.reject("Failed to update guild!");
+    return Promise.reject('Failed to update guild!');
   } catch (error) {
     return Promise.reject(error);
   }
