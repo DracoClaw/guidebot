@@ -58,13 +58,7 @@ export async function count(
             .then((msg: Message) => {
               const embedMsg = new MessageEmbed()
                 .setTitle("HIGH SCORE")
-                .setDescription(
-                  `<@${
-                    guild.counting.lastUserID
-                  }>: [${oldCount.toString()}](https://discord.com/channels/${
-                    guild.guildId
-                  }/${guild.counting.channel}/${guild.counting.lastMsgId})`
-                )
+                .setDescription(`<@${guild.counting.lastUserID}>: [${oldCount.toString()}](https://discord.com/channels/${guild.guildId}/${guild.counting.channel}/${guild.counting.lastMsgId})`)
                 .setTimestamp();
               msg.edit({ embeds: [embedMsg] });
             })
