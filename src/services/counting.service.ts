@@ -16,8 +16,8 @@ export async function count(
 
       if (
         !parseInt(message.content, 10) ||
-        newCount.toString().indexOf('.') > -1 ||
-        newCount.toString().indexOf(',') > -1
+        newCount.toString().indexOf(".") > -1 ||
+        newCount.toString().indexOf(",") > -1
       ) {
         reject(CountingError.NaI);
         return;

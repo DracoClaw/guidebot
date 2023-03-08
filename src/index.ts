@@ -84,7 +84,7 @@ client
       if (commandToExecute) commandToExecute.execute(interaction);
     }
   })
-  .on('messageCreate', async (message: Message) => {
+  .on("messageCreate", async (message: Message) => {
     if (message.author.bot) return;
 
     const guild = await getOrCreateGuildById(message.guildId!);
@@ -97,14 +97,14 @@ client
       count(message, guild)
         .then((result) => {
           if (result) {
-            message.react('✅');
+            message.react("✅");
             easterEgg(message);
           } else {
-            message.react('❌');
+            message.react("❌");
           }
         })
         .catch((error: CountingError | string) => {
-          let msg = '';
+          let msg = "";
 
           switch (error) {
             case CountingError.Limit:
