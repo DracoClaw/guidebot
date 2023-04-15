@@ -66,17 +66,10 @@ export async function assignRandomTeam(member: GuildMember) {
       .send({
         embeds: [
           {
-            title: 'Welcome to ACNH.Guide!',
+            title: 'Welcome to ACNH.Hub!',
             description:
-              "Here's a quick rundown of important things to know.\n\nBe sure to claim cosmetic and pingable roles in <#723698264511086624>.\n\nA full list of all channels and their uses can be found [here](https://discord.com/channels/695630972082978986/702309461460779128/1078680203682918420).",
+              "Here's a quick rundown of important things to know.\n\nA full list of all channels and their uses can be found [here](https://discord.com/channels/695630972082978986/1078680203682918420/1078681584707833997).",
             color: 10737070,
-            image: {
-              url: 'https://micro.sylo.digital/i/nanvvc.png',
-              proxyURL:
-                'https://images-ext-2.discordapp.net/external/gC3XTB7OZK8exrP9ua95ZmyOAfUU-vDnycsp4UK4qEY/https/micro.sylo.digital/i/nanvvc.png',
-              width: 1911,
-              height: 699,
-            },
             fields: [
               {
                 name: 'Teams',
