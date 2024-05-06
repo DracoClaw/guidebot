@@ -54,6 +54,10 @@ export async function easterEgg(message: Message) {
   if (message.content === '613') {
     message.react('✡');
   }
+  if (message.content === '616') {
+    message.react('🕷️');
+    message.react('👨🏻');
+  }
   if (message.content === '626') {
     message.react('🌺');
   }
