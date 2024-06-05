@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction } from "discord.js";
-import { ICommand } from "./ICommand";
+import { ICommand } from "../utils/ICommand";
 
 export class TestCommand implements ICommand {
   commandId: string = "";

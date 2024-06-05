@@ -15,7 +15,7 @@ import { count } from './services/counting.service';
 import { assignRandomTeam } from './services/role.service';
 import { easterEgg } from './services/eggs.service';
 import { CommandHandler } from './utils/commandHandler';
-import { ICommand } from './commands/ICommand';
+import { ICommand } from './utils/ICommand';
 import { CountingError } from './models';
 
 declare module 'discord.js' {

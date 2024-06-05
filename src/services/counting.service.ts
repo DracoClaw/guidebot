@@ -55,9 +55,7 @@ export async function count(
               .setDescription(
                 `<@${
                   guild.counting.lastUserID
-                }>: [${oldCount.toString()}](https://discord.com/channels/${
-                  guild.guildId
-                }/${guild.counting.channel}/${guild.counting.lastMsgId})`
+                }>: [${oldCount.toString()}](https://discord.com/channels/${guild.guildId}/${guild.counting.channel}/${guild.counting.lastMsgId})`
               )
               .setTimestamp();
             msg.edit({ embeds: [embedMsg] });
