@@ -1197,7 +1197,7 @@ snapshots:
       '@types/ws': 8.5.10
       '@vladfrangu/async_event_emitter': 2.2.4
       discord-api-types: 0.37.83
-      tslib: 2.6.3
+      tslib: 2.6.2
       ws: 8.17.0
     transitivePeerDependencies:
       - bufferutil
