@@ -1,6 +1,7 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 import { updateGuild } from './database.service';
 import { GuideGuild, CountingError } from '../models';
+import { EmbedBuilder } from '@discordjs/builders';
 
 export async function count(
   message: Message,
@@ -49,7 +50,7 @@ export async function count(
           message.channel.messages
           .fetch(guild.counting.embedMsg)
           .then((msg: Message) => {
-            const embedMsg = new MessageEmbed()
+            const embedMsg = new EmbedBuilder()
               .setTitle('HIGH SCORE')
               .setDescription(
                 `<@${

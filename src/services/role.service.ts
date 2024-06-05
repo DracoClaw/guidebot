@@ -1,4 +1,4 @@
-import { Client, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
+import { GuildMember } from 'discord.js';
 
 export async function assignRandomTeam(member: GuildMember) {
   if (member.guild.id != '695630972082978986') return;

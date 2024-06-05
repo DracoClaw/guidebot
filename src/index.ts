@@ -3,12 +3,12 @@ import 'dotenv/config';
 import {
   Client,
   Collection,
-  Intents,
   Interaction,
   Message,
   GuildMember,
   PartialGuildMember,
   TextChannel,
+  ActivityType,
 } from 'discord.js';
 import { connect, getOrCreateGuildById } from './services/database.service';
 import { count } from './services/counting.service';
@@ -26,12 +26,12 @@ declare module 'discord.js' {
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_PRESENCES,
-  ],
-});
+    'Guilds',
+    'GuildMembers',
+    'GuildMessages',
+    'GuildPresences',
+  ]});
+
 const commandHandler = new CommandHandler(process.env.APP_ID!);
 
 client.commands = new Collection();
@@ -52,7 +52,7 @@ client.on('ready', () => {
     activities: [
       {
         name: 'Animal Crossing: New Horizons',
-        type: 'PLAYING',
+        type: ActivityType.Playing,
       },
     ],
   });
