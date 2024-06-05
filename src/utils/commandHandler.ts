@@ -1,7 +1,7 @@
 import Commands from "../commands";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
-import { ICommand } from "../commands/ICommand";
+import { ICommand } from "./ICommand";
 
 export class CommandHandler {
   clientId: string;
