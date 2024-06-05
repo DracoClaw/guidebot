@@ -1,4 +1,4 @@
-import { PingCommand } from "./ping/Ping.command";
-import { TestCommand } from "./test/Test.command";
+import { PingCommand } from "./Ping.command";
+import { TestCommand } from "./Test.command";
 
 export default [PingCommand, TestCommand];

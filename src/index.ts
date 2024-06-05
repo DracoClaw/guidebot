@@ -27,6 +27,7 @@ declare module 'discord.js' {
 const client = new Client({
   intents: [
     'Guilds',
+    'MessageContent',
     'GuildMembers',
     'GuildMessages',
     'GuildPresences',
