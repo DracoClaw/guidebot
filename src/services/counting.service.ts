@@ -16,8 +16,8 @@ export async function count(
 
       if (
         !parseInt(message.content, 10) ||
-        newCount.toString().indexOf(".") > -1 ||
-        newCount.toString().indexOf(",") > -1
+        newCount.toString().indexOf('.') > -1 ||
+        newCount.toString().indexOf(',') > -1
       ) {
         reject(CountingError.NaI);
         return;
@@ -34,13 +34,6 @@ export async function count(
       const oldCount = guild.counting.currCount;
       console.log(`${guild.guildId} | Current Count: ${oldCount}`);
 
-      if (guild.counting.lastUserID == message.author.id) {
-        guild.counting.currLimit++;
-      } else {
-        guild.counting.lastUserID = message.author.id;
-        guild.counting.currLimit = 1;
-      }
-
       if (oldCount + 1 !== newCount) {
         message.channel.send(
           `Sorry <@${
@@ -53,26 +46,26 @@ export async function count(
         let currHighscore = guild.counting.bestCount;
         if (currHighscore < oldCount) {
           guild.counting.bestCount = oldCount;
-          let embedMsg = message.channel.messages
-            .fetch(guild.counting.embedMsg)
-            .then((msg: Message) => {
-              const embedMsg = new MessageEmbed()
-                .setTitle('HIGH SCORE')
-                .setDescription(
-                  `<@${
-                    guild.counting.lastUserID
-                  }>: [${oldCount.toString()}](https://discord.com/channels/${
-                    guild.guildId
-                  }/${guild.counting.channel}/${guild.counting.lastMsgId})`
-                )
-                .setTimestamp();
-              msg.edit({ embeds: [embedMsg] });
-            })
-            .catch((error) =>
-              console.error(
-                `${guild.guildId} | Unable to get Embed Message: ${error}`
+          message.channel.messages
+          .fetch(guild.counting.embedMsg)
+          .then((msg: Message) => {
+            const embedMsg = new MessageEmbed()
+              .setTitle('HIGH SCORE')
+              .setDescription(
+                `<@${
+                  guild.counting.lastUserID
+                }>: [${oldCount.toString()}](https://discord.com/channels/${
+                  guild.guildId
+                }/${guild.counting.channel}/${guild.counting.lastMsgId})`
               )
-            );
+              .setTimestamp();
+            msg.edit({ embeds: [embedMsg] });
+          })
+          .catch((error) =>
+            console.error(
+              `${guild.guildId} | Unable to get Embed Message: ${error}`
+            )
+          );
 
           message.channel.send(
             `NEW HIGHSCORE!! We reached **${oldCount}**! Let's try to surpass that!`
@@ -84,6 +77,13 @@ export async function count(
           .then(() => resolve(false))
           .catch((error) => reject(error));
         return;
+      }
+
+      if (guild.counting.lastUserID == message.author.id) {
+        guild.counting.currLimit++;
+      } else {
+        guild.counting.lastUserID = message.author.id;
+        guild.counting.currLimit = 1;
       }
 
       guild.counting.currCount = newCount;
