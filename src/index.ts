@@ -11,12 +11,11 @@ import {
   ActivityType,
 } from 'discord.js';
 import { connect, getOrCreateGuildById } from './services/database.service';
-import { count } from './services/counting.service';
+import { CountingError, count } from './services/counting.service';
 import { assignRandomTeam } from './services/role.service';
 import { easterEgg } from './services/eggs.service';
 import { CommandHandler } from './utils/commandHandler';
 import { ICommand } from './utils/ICommand';
-import { CountingError } from './models';
 
 declare module 'discord.js' {
   export interface Client {
@@ -33,7 +32,7 @@ const client = new Client({
     'GuildPresences',
   ]});
 
-const commandHandler = new CommandHandler(process.env.APP_ID!);
+const commandHandler = new CommandHandler();
 
 client.commands = new Collection();
 

@@ -4,15 +4,11 @@ import { Routes } from "discord-api-types/v9";
 import { ICommand } from "./ICommand";
 
 export class CommandHandler {
-  clientId: string;
+  clientId = process.env.APP_ID!;
 
   commands: any[] = new Array();
 
   commandObjects: ICommand[] = new Array();
-
-  constructor(clientId: string) {
-    this.clientId = process.env.APP_ID!;
-  }
 
   async registerCommands(): Promise<void> {
     Commands.forEach((command) => {
@@ -27,7 +23,7 @@ export class CommandHandler {
     });
 
     let token = process.env.BOT_TOKEN!;
-    let rest = new REST({ version: "9" }).setToken(token);
+    let rest = new REST().setToken(token);
 
     try {
       console.log("Registering Slash Commands!");

@@ -1,7 +1,13 @@
 import { Message } from 'discord.js';
 import { updateGuild } from './database.service';
-import { GuideGuild, CountingError } from '../models';
+import { GuideGuild } from '../models';
 import { EmbedBuilder } from '@discordjs/builders';
+
+export enum CountingError {
+  Limit = "Limit Reached!",
+  NaN = "Not a Number!",
+  NaI = "Not an Integer!",
+}
 
 export async function count(
   message: Message,
