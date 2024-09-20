@@ -1,4 +1,4 @@
-import { Client } from 'discord.js';
+import { ActivityType, Client } from 'discord.js';
 import { connect } from '../services/database.service';
 
 export default async (client: Client) => {
@@ -9,7 +9,7 @@ export default async (client: Client) => {
     activities: [
       {
         name: 'Animal Crossing: New Horizons',
-        type: 'PLAYING',
+        type: ActivityType.Playing,
       },
     ],
   });
