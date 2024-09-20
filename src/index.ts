@@ -1,5 +1,6 @@
 import { Client, Collection } from 'discord.js';
 import 'dotenv/config';
+import guildMemberAdd from './events/guildMemberAdd';
 import guildMemberUpdate from './events/guildMemberUpdate';
 import interactionCreate from './events/interactionCreate';
 import messageCreate from './events/messageCreate';
@@ -37,6 +38,7 @@ commandHandler.registerCommands().then(() => {
 });
 
 client.on('ready', () => ready(client));
+client.on('guildMemberAdd', (member) => guildMemberAdd(member));
 client.on('interactionCreate', (interaction) => interactionCreate(interaction, client));
 client.on('messageCreate', (message) => messageCreate(message));
 client.on('messageDelete', (message) => messageDelete(message, client));

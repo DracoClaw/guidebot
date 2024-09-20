@@ -1,13 +1,10 @@
 import { Client, GuildMember, PartialGuildMember, TextChannel } from 'discord.js';
 import {
   GENERAL_CHANNEL_ID,
-  GUILD_ID,
-  MEMBER_ROLE_ID,
   STAFF_CHANNEL_ID,
-  SUPPORTER_CHANNEL_ID,
+  SUPPORTER_CHANNEL_ID
 } from '../config';
 import { getOrCreateGuildById } from '../services/database.service';
-import { assignRandomTeam } from '../services/role.service';
 
 export default async (
   oldMember: GuildMember | PartialGuildMember,
@@ -57,16 +54,10 @@ export default async (
   handleSpacerRoles(guild.spacer.bRoles, guild.spacer.bSpacer, 'B');
   handleSpacerRoles(guild.spacer.cRoles, guild.spacer.cSpacer, 'C');
 
-  if (addedRoles.hasAny(MEMBER_ROLE_ID)) {
-    console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
-    assignRandomTeam(newMember);
-  }
-
   if (
     newMember.premiumSinceTimestamp &&
     newMember.premiumSinceTimestamp !== oldMember.premiumSinceTimestamp
   ) {
-    if (newMember.guild.id != GUILD_ID) return;
     staffChannel?.send(
       `New Server Booster: ${oldMember.user}! Don't forget to give them points in 7 days.`
     );
@@ -90,6 +81,5 @@ export default async (
         ],
       })
       .catch(console.error);
-    console.log(`${guild.guildId} | New member: ${oldMember.user.tag}!`);
   }
 };

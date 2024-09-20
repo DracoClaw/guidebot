@@ -1,70 +1,67 @@
-import Commands from "../commands";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
+import Commands from "../commands";
 import { ICommand } from "./ICommand";
 
 export class CommandHandler {
-  clientId = process.env.APP_ID!;
-
-  commands: any[] = new Array();
-
-  commandObjects: ICommand[] = new Array();
+  private clientId = process.env.APP_ID!;
+  private token = process.env.BOT_TOKEN!;
+  private commands: any[] = [];
+  private commandObjects: ICommand[] = [];
+  private rest = new REST().setToken(this.token);
 
   async registerCommands(): Promise<void> {
-    Commands.forEach((command) => {
-      let commandInstance = new command();
-      this.commands.push(
-        this.processAdminPermissions(
-          commandInstance.data.toJSON(),
-          commandInstance.isAdminCommand
-        )
+    this.initializeCommands();
+    await this.registerCommandsWithDiscord();
+  }
+
+  private initializeCommands(): void {
+    Commands.forEach((CommandClass) => {
+      const commandInstance = new CommandClass();
+      const commandJSON = this.processAdminPermissions(
+        commandInstance.data.toJSON(),
+        commandInstance.isAdminCommand
       );
+      this.commands.push(commandJSON);
       this.commandObjects.push(commandInstance);
     });
+  }
 
-    let token = process.env.BOT_TOKEN!;
-    let rest = new REST().setToken(token);
-
+  private async registerCommandsWithDiscord(): Promise<void> {
     try {
       console.log("Registering Slash Commands!");
 
-      await rest
-        .put(Routes.applicationCommands(this.clientId), { body: this.commands })
-        .then((response: any) => {
-          const registeredCommands: any[] = response;
+      const response: any = await this.rest.put(
+        Routes.applicationCommands(this.clientId),
+        { body: this.commands }
+      );
 
-          this.commands.forEach((command) => {
-            const cmdId: string = registeredCommands.find(
-              (registeredCommand) => registeredCommand.name === command.name
-            ).id;
-            console.log(`cmdName: ${command.name} - cmdId: ${cmdId}`);
-            const commandObject = this.commandObjects.find(
-              (cmdObj) => cmdObj.data.name === command.name
-            );
-            if (commandObject) commandObject.commandId = cmdId;
-          });
-        });
+      this.updateCommandIds(response);
     } catch (error) {
       console.error(`Error registering Slash Commands: ${error}`);
     }
   }
 
-  // TODO: Swap once d.js supports perms v2
-  private processAdminPermissions(
-    commandJSON: Object,
-    isAdminCommand: boolean
-  ): any {
+  private updateCommandIds(registeredCommands: any[]): void {
+    registeredCommands.forEach((registeredCommand) => {
+      const commandObject = this.commandObjects.find(
+        (cmdObj) => cmdObj.data.name === registeredCommand.name
+      );
+      if (commandObject) {
+        commandObject.commandId = registeredCommand.id;
+        console.log(`cmdName: ${registeredCommand.name} - cmdId: ${registeredCommand.id}`);
+      }
+    });
+  }
+
+  private processAdminPermissions(commandJSON: any, isAdminCommand: boolean): any {
     if (isAdminCommand) {
-      let adminPerm = "8"; // This refers to the "Administrator" permission.
-      let result = {
+      return {
         ...commandJSON,
         type: 1,
-        default_member_permissions: adminPerm,
+        default_member_permissions: "8", // Administrator permission
       };
-      // console.log(`command JSON: ${JSON.stringify(result)}`);
-      return result;
     }
-
     return commandJSON;
   }
 }
