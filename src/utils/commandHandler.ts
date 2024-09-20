@@ -7,7 +7,7 @@ export class CommandHandler {
   private clientId = process.env.APP_ID!;
   private token = process.env.BOT_TOKEN!;
   private commands: any[] = [];
-  private commandObjects: ICommand[] = [];
+  commandObjects: ICommand[] = [];
   private rest = new REST().setToken(this.token);
 
   async registerCommands(): Promise<void> {
