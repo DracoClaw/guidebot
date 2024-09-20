@@ -49,15 +49,15 @@ export async function assignRandomTeam(member: GuildMember) {
                 inline: false,
               },
               {
-                name: 'Tickets',
+                name: 'Scanning',
                 value:
-                  'If you would like to host a [giveaway](<https://discord.com/channels/695630972082978986/703283212104892436>), or need to report a user, this is the place to go. Simply click the button to get started.',
+                  'If you would like to use the Catalog Scanner bot, you can do so in <#702316660798783510>. Simply type `/scan` and include the url or attachment of the video you would like scanned. The bot will then provide you with a list of items in the video.',
                 inline: false,
               },
               {
-                name: 'Suggestions',
+                name: 'Tickets',
                 value:
-                  'If there is something you want to see in the server, do not hesitate to send a message in <#852316816940335144>. After staff review it can be voted on by the community!',
+                  'If you would like to host a [giveaway](<https://discord.com/channels/695630972082978986/703283212104892436>), or need to report a user, this is the place to go. Simply click the button to get started.',
                 inline: false,
               },
             ],
