@@ -1,6 +1,7 @@
 import { Client, GuildMember, PartialGuildMember, TextChannel } from 'discord.js';
 import {
   GENERAL_CHANNEL_ID,
+  SPACER_ROLES,
   STAFF_CHANNEL_ID,
   SUPPORTER_CHANNEL_ID
 } from '../config';
@@ -37,22 +38,21 @@ export default async (
     );
   }
 
-  // Handle spacer roles
   const handleSpacerRoles = (groupRoles: string[], spacerRole: string, groupName: string) => {
     if (newMember.roles.cache.hasAny(...groupRoles)) {
       if (!newMember.roles.cache.hasAny(spacerRole)) {
-        console.log(`${guild.guildId} | Group ${groupName} role added: ${oldMember.user.tag}!`);
-        oldMember.roles.add(spacerRole, `User has a Group ${groupName} role.`);
+        console.log(`${guild.guildId} | ${groupName} role added: ${oldMember.user.tag}!`);
+        oldMember.roles.add(spacerRole, `User has a ${groupName} role.`);
       }
     } else if (newMember.roles.cache.hasAny(spacerRole)) {
-      console.log(`${guild.guildId} | Group ${groupName} role removed: ${oldMember.user.tag}!`);
-      oldMember.roles.remove(spacerRole, `User has no Group ${groupName} roles.`);
+      console.log(`${guild.guildId} | ${groupName} role removed: ${oldMember.user.tag}!`);
+      oldMember.roles.remove(spacerRole, `User has no ${groupName} roles.`);
     }
   };
 
-  handleSpacerRoles(guild.spacer.aRoles, guild.spacer.aSpacer, 'A');
-  handleSpacerRoles(guild.spacer.bRoles, guild.spacer.bSpacer, 'B');
-  handleSpacerRoles(guild.spacer.cRoles, guild.spacer.cSpacer, 'C');
+  Object.entries(SPACER_ROLES).forEach(([groupName, { spacerRole, groupRoles }]) => {
+    handleSpacerRoles(groupRoles, spacerRole, groupName);
+  });
 
   if (
     newMember.premiumSinceTimestamp &&

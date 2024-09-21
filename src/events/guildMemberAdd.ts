@@ -1,6 +1,6 @@
 import { GuildMember } from 'discord.js';
 import { getOrCreateGuildById } from '../services/database.service';
-import { assignRandomTeam } from '../services/role.service';
+import { assignRandomTeam } from '../services/welcome.service';
 
 export default async (
   member: GuildMember,
